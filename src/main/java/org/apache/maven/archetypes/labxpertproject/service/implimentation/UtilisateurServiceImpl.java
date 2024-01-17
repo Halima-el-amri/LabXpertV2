@@ -8,6 +8,7 @@ import org.apache.maven.archetypes.labxpertproject.service.interfaces.IUtilisate
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 
@@ -28,43 +29,72 @@ public class UtilisateurServiceImpl implements IUtilisateurSerivce {
         return modelMapper.map(utilisateurDTO, Utilisateur.class);
     }
 
+    @Transactional
     public UtilisateurDTO addUtilisateur(UtilisateurDTO userDTO) {
-        Utilisateur utilisateur = convertToEntity(userDTO);
-        utilisateurRepository.save(utilisateur);
-        return userDTO;
+        try {
+            Utilisateur utilisateur = convertToEntity(userDTO);
+            utilisateur = utilisateurRepository.save(utilisateur);  // Save and get the entity with generated ID
+            System.out.println("Utilisateur added successfully service");
+            return convertToDTO(utilisateur);  // Return the DTO with the generated ID
+        } catch (Exception e) {
+            // Handle exception, log, or rethrow
+            throw new RuntimeException("Error adding utilisateur", e);
+        }
     }
 
+    @Transactional(readOnly = true)
     public List<UtilisateurDTO> getAllUtilisateur() {
-        List<Utilisateur> utilisateurs = utilisateurRepository.findAll();
-        List<UtilisateurDTO> utilisateurDTOS = new ArrayList<>();
-        for (Utilisateur utilisateur : utilisateurs) {
-            utilisateurDTOS.add(convertToDTO(utilisateur));
+        try {
+            List<Utilisateur> utilisateurs = utilisateurRepository.findAll();
+            List<UtilisateurDTO> utilisateurDTOS = new ArrayList<>();
+            for (Utilisateur utilisateur : utilisateurs) {
+                utilisateurDTOS.add(convertToDTO(utilisateur));
+            }
+            return utilisateurDTOS;
+        } catch (Exception e) {
+            // Handle exception, log, or rethrow
+            throw new RuntimeException("Error getting all utilisateurs", e);
         }
-        return utilisateurDTOS;
     }
 
+    @Transactional(readOnly = true)
     public UtilisateurDTO getUtilisateurById(Long userId) {
-        Optional<Utilisateur> utilisateur = utilisateurRepository.findById(userId);
-        if (utilisateur.isPresent()) {
-            return convertToDTO(utilisateur.get());
+        try {
+            Optional<Utilisateur> utilisateur = utilisateurRepository.findById(userId);
+            return utilisateur.map(this::convertToDTO).orElse(null);
+        } catch (Exception e) {
+            // Handle exception, log, or rethrow
+            throw new RuntimeException("Error getting utilisateur by ID", e);
         }
-        return null;
     }
 
+    @Transactional
     public UtilisateurDTO updateUtilisateur(UtilisateurDTO userDTO) {
-        Optional<Utilisateur> utilisateur = utilisateurRepository.findById(userDTO.getUtilisateurId());
-        if (utilisateur.isPresent()) {
-            utilisateur.get().setNomUtilisateur(userDTO.getNomUtilisateur());
-            utilisateur.get().setPassword(userDTO.getPassword());
-            utilisateur.get().setRoleDutilisateur(userDTO.getRoleDutilisateur());
-            utilisateurRepository.save(utilisateur.get());
-            return convertToDTO(utilisateur.get());
+        try {
+            Optional<Utilisateur> utilisateur = utilisateurRepository.findById(userDTO.getUtilisateurId());
+            if (utilisateur.isPresent()) {
+                utilisateur.get().setNomUtilisateur(userDTO.getNomUtilisateur());
+                utilisateur.get().setPassword(userDTO.getPassword());
+                utilisateur.get().setRoleDutilisateur(userDTO.getRoleDutilisateur());
+                utilisateurRepository.save(utilisateur.get());
+                return convertToDTO(utilisateur.get());
+            }
+            return null;
+        } catch (Exception e) {
+            // Handle exception, log, or rethrow
+            throw new RuntimeException("Error updating utilisateur", e);
         }
-        return null;
     }
 
+    @Transactional
     public void deleteUtilisateur(Long userId) {
-        utilisateurRepository.deleteById(userId);
+        try {
+            utilisateurRepository.deleteById(userId);
+        } catch (Exception e) {
+            // Handle exception, log, or rethrow
+            throw new RuntimeException("Error deleting utilisateur", e);
+        }
     }
+
 
 }

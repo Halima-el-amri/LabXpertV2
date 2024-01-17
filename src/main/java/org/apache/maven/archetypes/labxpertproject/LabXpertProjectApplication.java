@@ -5,6 +5,7 @@ import org.apache.maven.archetypes.labxpertproject.entitiy.model.Analyse;
 import org.apache.maven.archetypes.labxpertproject.entitiy.model.Utilisateur;
 import org.apache.maven.archetypes.labxpertproject.repository.AnalyseRepository;
 import org.apache.maven.archetypes.labxpertproject.repository.UtilisateurRepository;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -19,6 +20,12 @@ public class LabXpertProjectApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(LabXpertProjectApplication.class, args);
+    }
+
+
+    @Bean
+    public ModelMapper modelMapper() {
+        return new ModelMapper();
     }
 
 //

@@ -23,5 +23,30 @@ public class UtilisateurController {
         return new ResponseEntity<>(addedUser, HttpStatus.CREATED);
     }
 
+    @GetMapping
+    public ResponseEntity<List<UtilisateurDTO>> getAllUsers() {
+        List<UtilisateurDTO> users = utilisateurService.getAllUtilisateur();
+        return new ResponseEntity<>(users, HttpStatus.OK);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<UtilisateurDTO> getUserById(@PathVariable Long id) {
+        UtilisateurDTO user = utilisateurService.getUtilisateurById(id);
+        return new ResponseEntity<>(user, HttpStatus.OK);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<UtilisateurDTO> updateUser(@PathVariable Long id, @RequestBody @Valid UtilisateurDTO utilisateurDTO) {
+        utilisateurDTO.setUtilisateurId(id);
+        UtilisateurDTO updatedUser = utilisateurService.updateUtilisateur(utilisateurDTO);
+        return new ResponseEntity<>(updatedUser, HttpStatus.OK);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deleteUser(@PathVariable Long id) {
+        utilisateurService.deleteUtilisateur(id);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
 
 }

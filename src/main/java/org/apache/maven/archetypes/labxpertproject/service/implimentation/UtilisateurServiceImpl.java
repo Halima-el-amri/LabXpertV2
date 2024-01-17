@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -42,15 +43,29 @@ public class UtilisateurServiceImpl implements IUtilisateurSerivce {
         }
     }
 
+//    @Transactional(readOnly = true)
+//    public List<UtilisateurDTO> getAllUtilisateur() {
+//        try {
+//            List<Utilisateur> utilisateurs = utilisateurRepository.findAll();
+//            List<UtilisateurDTO> utilisateurDTOS = new ArrayList<>();
+//            for (Utilisateur utilisateur : utilisateurs) {
+//                utilisateurDTOS.add(convertToDTO(utilisateur));
+//            }
+//            return utilisateurDTOS;
+//        } catch (Exception e) {
+//            // Handle exception, log, or rethrow
+//            throw new RuntimeException("Error getting all utilisateurs", e);
+//        }
+//    }
+
+
     @Transactional(readOnly = true)
     public List<UtilisateurDTO> getAllUtilisateur() {
         try {
             List<Utilisateur> utilisateurs = utilisateurRepository.findAll();
-            List<UtilisateurDTO> utilisateurDTOS = new ArrayList<>();
-            for (Utilisateur utilisateur : utilisateurs) {
-                utilisateurDTOS.add(convertToDTO(utilisateur));
-            }
-            return utilisateurDTOS;
+            return utilisateurs.stream()
+                    .map(this::convertToDTO)
+                    .collect(Collectors.toList());
         } catch (Exception e) {
             // Handle exception, log, or rethrow
             throw new RuntimeException("Error getting all utilisateurs", e);
@@ -73,9 +88,7 @@ public class UtilisateurServiceImpl implements IUtilisateurSerivce {
         try {
             Optional<Utilisateur> utilisateur = utilisateurRepository.findById(userDTO.getUtilisateurId());
             if (utilisateur.isPresent()) {
-                utilisateur.get().setNomUtilisateur(userDTO.getNomUtilisateur());
-                utilisateur.get().setPassword(userDTO.getPassword());
-                utilisateur.get().setRoleDutilisateur(userDTO.getRoleDutilisateur());
+                modelMapper.map(userDTO, utilisateur.get());
                 utilisateurRepository.save(utilisateur.get());
                 return convertToDTO(utilisateur.get());
             }

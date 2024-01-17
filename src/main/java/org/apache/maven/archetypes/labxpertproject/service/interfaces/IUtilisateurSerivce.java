@@ -14,7 +14,7 @@ public interface IUtilisateurSerivce {
 
     UtilisateurDTO getUtilisateurById(Long userId);
 
-    UtilisateurDTO updateUtilisateur(UtilisateurDTO utilisateurDTO);
+    UtilisateurDTO updateUtilisateur(UtilisateurDTO userDTO);
 
     void deleteUtilisateur(Long userId);
 }

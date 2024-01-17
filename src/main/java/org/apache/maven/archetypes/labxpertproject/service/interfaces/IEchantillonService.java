@@ -12,7 +12,6 @@ public interface IEchantillonService {
     List<EchantillonDTO> getAllEchantillons();
 
     EchantillonDTO createEchantillon(EchantillonDTO echantillonDTO);
-
-
+    public EchantillonDTO updateEchantillon(Long echantillonId, EchantillonDTO updatedEchantillonDTO);
     void deleteEchantillon(Long id);
 }

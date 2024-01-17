@@ -40,6 +40,13 @@ public class EchantillonController {
         return createdEchantillon;
     }
 
+    @PutMapping("/{id}")
+    public ResponseEntity<EchantillonDTO> updateEchantillon(
+            @PathVariable("id") Long echantillonId,
+            @RequestBody EchantillonDTO updatedEchantillonDTO) {
+        EchantillonDTO updatedEchantillon = echantillonService.updateEchantillon(echantillonId ,updatedEchantillonDTO);
+        return new ResponseEntity<>(updatedEchantillon, HttpStatus.OK);
+    }
 
 
     @DeleteMapping("/{id}")

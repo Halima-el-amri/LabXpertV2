@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class EchantillonServiceImpl implements IEchantillonService {
@@ -21,8 +22,20 @@ public class EchantillonServiceImpl implements IEchantillonService {
     private ModelMapper modelMapper;
 
 
+    @Override
+    public EchantillonDTO getEchantillonById(Long id) {
+        Echantillon echantillon = echantillonRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Echantillon not found with id: " + id));
 
-
+        return modelMapper.map(echantillon, EchantillonDTO.class);
+    }
+    @Override
+    public List<EchantillonDTO> getAllEchantillons() {
+        List<Echantillon> echantillons = echantillonRepository.findAll();
+        return echantillons.stream()
+                .map(echantillon -> modelMapper.map(echantillon, EchantillonDTO.class))
+                .collect(Collectors.toList());
+    }
 
     @Override
     public EchantillonDTO createEchantillon(EchantillonDTO echantillonDTO) {
@@ -30,4 +43,15 @@ public class EchantillonServiceImpl implements IEchantillonService {
         Echantillon savedEchantillon = echantillonRepository.save(echantillon);
         return modelMapper.map(savedEchantillon, EchantillonDTO.class);
     }
+
+
+
+
+    @Override
+    public void deleteEchantillon(Long id) {
+        Echantillon existingEchantillon = echantillonRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Echantillon not found with id: " + id));
+        echantillonRepository.delete(existingEchantillon);
+    }
+
 }

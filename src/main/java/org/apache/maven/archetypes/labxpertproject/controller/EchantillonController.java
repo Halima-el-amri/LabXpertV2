@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.persistence.EntityNotFoundException;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/echantillons")
@@ -17,13 +18,33 @@ public class EchantillonController {
     private IEchantillonService echantillonService;
 
 
-
-
-
+//http://localhost:8080/api/echantillons/21
+    @GetMapping("{id}")
+    public EchantillonDTO getEchantillonById(@PathVariable("id") Long echantillonId) {
+        try {
+            EchantillonDTO echantillonById = echantillonService.getEchantillonById(echantillonId);
+            return echantillonById;
+        } catch (EntityNotFoundException e) {
+            System.out.println("there is no echantillon whith zhis id "+echantillonId);
+        }return null;
+    }
+    @GetMapping
+    public List<EchantillonDTO> getAllEchantillon(){
+        List<EchantillonDTO> echantillons = echantillonService.getAllEchantillons();
+      return echantillons;
+    }
 
     @PostMapping
     public EchantillonDTO createEchantillon(@RequestBody EchantillonDTO echantillonDTO) {
         EchantillonDTO createdEchantillon = echantillonService.createEchantillon(echantillonDTO);
         return createdEchantillon;
+    }
+
+
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteEchantillon(@PathVariable("id") Long echantillonId) {
+        echantillonService.deleteEchantillon(echantillonId);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }

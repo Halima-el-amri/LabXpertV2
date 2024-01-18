@@ -50,10 +50,10 @@ public class EchantillonServiceImpl implements IEchantillonService {
     public EchantillonDTO updateEchantillon(Long echantillonId, EchantillonDTO updatedEchantillonDTO) {
         Echantillon existingEchantillon = echantillonRepository.findById(echantillonId)
                 .orElseThrow(() -> new EntityNotFoundException("Echantillon not found with id: " + echantillonId));
+
+        updatedEchantillonDTO.setEchantillonId(echantillonId);
         modelMapper.map(updatedEchantillonDTO, existingEchantillon);
         Echantillon savedEchantillon = echantillonRepository.save(existingEchantillon);
-
-        // Return the updated EchantillonDTO
         return modelMapper.map(savedEchantillon, EchantillonDTO.class);
     }
 

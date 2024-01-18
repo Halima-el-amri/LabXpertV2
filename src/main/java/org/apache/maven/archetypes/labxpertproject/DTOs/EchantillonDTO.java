@@ -13,7 +13,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 public class EchantillonDTO {
     private Long echantillonId;
-    private Long patientId; // Include patient ID in DTO if needed
+    private Long patientId;
     private LocalDate datePrelevement;
 
 }

@@ -1,5 +1,6 @@
 package org.apache.maven.archetypes.labxpertproject.controller;
 
+import org.apache.maven.archetypes.labxpertproject.DTOs.PlanificationDTO;
 import org.apache.maven.archetypes.labxpertproject.DTOs.ReactifDTO;
 import org.apache.maven.archetypes.labxpertproject.service.interfaces.IReactifService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,5 +40,19 @@ public class ReactifController {
         }
     }
 
+
+    @PutMapping("/{id}")
+    public ResponseEntity<ReactifDTO> updateReactif(@PathVariable Long id, @RequestBody @Valid ReactifDTO reactifDTO) {
+        reactifDTO.setReactifId(id);
+        ReactifDTO updatedReactif = reactifService.updateReactif(reactifDTO);
+        return new ResponseEntity<>(updatedReactif, HttpStatus.OK);
+    }
+
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteReactif(@PathVariable Long id) {
+        reactifService.deleteReactif(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
 
 }

@@ -12,4 +12,10 @@ public interface IReactifService {
     List<ReactifDTO> getAllReactifs();
 
     ReactifDTO getReactifById(Long id);
+
+    @Transactional
+    ReactifDTO updateReactif(ReactifDTO reactifDTO);
+
+    @Transactional
+    void deleteReactif(Long id);
 }

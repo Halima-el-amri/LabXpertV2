@@ -46,13 +46,13 @@ class PatientRepositoryTest {
             testPatient = patientRepository.save(testPatient);
 
             // Create an Analyse entity to associate with the Patient entity
-            testAnalyse = new Analyse();
-            testAnalyse.setDateDebutAnalyse(LocalDate.now());
-            testAnalyse.setDateFinAnalyse(LocalDate.now().plusDays(7));
-            testAnalyse.setEtatAnalyse(StatutDanalyse.EN_ATTENTE);
-            testAnalyse.setCommentaire("Test Comment");
-            testAnalyse.setPatient(testPatient);
-            testAnalyse = analyseRepository.save(testAnalyse);
+//            testAnalyse = new Analyse();
+//            testAnalyse.setDateDebutAnalyse(LocalDate.now());
+//            testAnalyse.setDateFinAnalyse(LocalDate.now().plusDays(7));
+//            testAnalyse.setEtatAnalyse(StatutDanalyse.EN_ATTENTE);
+//            testAnalyse.setCommentaire("Test Comment");
+//            testAnalyse.setPatient(testPatient);
+//            testAnalyse = analyseRepository.save(testAnalyse);
 
             // Create an Echantillon entity to associate with the Patient entity
             testEchantillon = new Echantillon();
@@ -60,7 +60,7 @@ class PatientRepositoryTest {
             testEchantillon = echantillonRepository.save(testEchantillon);
 
             // Save the Patient entity
-            testPatient.getAnalyseHistory().add(testAnalyse);
+//            testPatient.getAnalyseHistory().add(testAnalyse);
             testPatient.getEchantillons().add(testEchantillon);
             testPatient = patientRepository.save(testPatient);
         }

@@ -45,10 +45,10 @@ public class Analyse {
     @ManyToOne (cascade = CascadeType.REMOVE)
     @JoinColumn(name = "echantillon_id")
     private Echantillon echantillon;
-
-    @ManyToOne (cascade = CascadeType.REMOVE)
-    @JoinColumn(name = "patient_id")
-    private Patient patient;
+//
+//    @ManyToOne (cascade = CascadeType.REMOVE)
+//    @JoinColumn(name = "patient_id")
+//    private Patient patient;
 
     @OneToMany(mappedBy = "analyse" ,cascade = CascadeType.REMOVE)
     private List<Reactif> reactifs;

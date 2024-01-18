@@ -72,14 +72,14 @@ class AnalyseRepositoryTest {
 
 
         // Create a Patient entity to associate with the Analyse entity
-        testPatient = new Patient();
-        testPatient = PatientRepository.save(testPatient);
+//        testPatient = new Patient();
+//        testPatient = PatientRepository.save(testPatient);
 
 
         testAnalyse.setUtilisateur(testUtilisateur);
         testAnalyse.setPlanification(testPlanification);
         testAnalyse.setEchantillon(testEchantillon);
-        testAnalyse.setPatient(testPatient);
+//        testAnalyse.setPatient(testPatient);
         testAnalyse = analyseRepository.save(testAnalyse);
     }
 

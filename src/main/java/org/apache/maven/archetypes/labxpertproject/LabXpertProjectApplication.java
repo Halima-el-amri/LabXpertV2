@@ -27,9 +27,15 @@ public class LabXpertProjectApplication {
     }
 
 
-    @Autowired
-    private PatientRepository patientRepository;
+//     @Autowired
+//     private PatientRepository patientRepository;
 
+
+
+//     @Bean
+//     public ModelMapper modelMapper() {
+//         return new ModelMapper();
+//     }
 
 //
 //    @Autowired

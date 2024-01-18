@@ -12,7 +12,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/echantillons")
-public class EchantillonController {
+public class    EchantillonController {
 
     @Autowired
     private IEchantillonService echantillonService;

@@ -10,6 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 public class ReactifServiceImpl implements IReactifService {
     @Autowired
@@ -44,6 +47,32 @@ public class ReactifServiceImpl implements IReactifService {
             throw new RuntimeException("Error adding reactif", e);
         }
     }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<ReactifDTO> getAllReactifs() {
+        try {
+            List<Reactif> reactifs= reactifRepository.findAll();
+            return reactifs.stream()
+                    .map(this::convertToDTO)
+                    .collect(Collectors.toList());
+        } catch (Exception e) {
+            throw new RuntimeException("Error getting all reactifs", e);
+        }
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public ReactifDTO getReactifById(Long id) {
+        try {
+        Reactif reactif =reactifRepository.findById(id).orElse(null);
+            return convertToDTO(reactif);
+        } catch (Exception e) {
+            throw new RuntimeException("Error getting reactif by id", e);
+        }
+    }
+
+
 
 
 }

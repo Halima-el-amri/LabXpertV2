@@ -10,8 +10,8 @@ import javax.persistence.*;
 public class Reactif {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "your_sequence_name")
-    @SequenceGenerator(name = "your_sequence_name", sequenceName = "your_sequence_name", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "reactif_name")
+    @SequenceGenerator(name = "reactif_name", sequenceName = "reactif_name", allocationSize = 1)
     @Column(name = "reactif_id")
     private Long reactifId;
 

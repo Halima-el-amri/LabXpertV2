@@ -100,6 +100,10 @@ public class PlanificationServiceImpl implements IPlanificationService {
         try {
             Optional<Planification> planificationOptional = planificationRepository.findById(id);
             planificationOptional.ifPresent(planification -> {
+                // Clear the association to utilisateur in each planification
+                planification.setUtilisateur(null);
+                planificationRepository.save(planification);
+
                 // Delete associated analyses
                 planification.getAnalyses().forEach(analyse -> analyseRepository.deleteById(analyse.getAnalyseId()));
 
@@ -111,5 +115,6 @@ public class PlanificationServiceImpl implements IPlanificationService {
             throw new RuntimeException("Error deleting planification", e);
         }
     }
+
 
 }

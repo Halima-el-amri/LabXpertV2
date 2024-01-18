@@ -13,8 +13,8 @@ import java.util.List;
 public class Planification {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "your_sequence_name")
-    @SequenceGenerator(name = "your_sequence_name", sequenceName = "your_sequence_name", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "planificationsequence")
+    @SequenceGenerator(name = "planificationsequence", sequenceName = "planificationsequence", allocationSize = 1)
     @Column(name = "planification_id")
     private Long planificationId;
 

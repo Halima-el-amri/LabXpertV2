@@ -26,4 +26,5 @@ public class Echantillon {
 
     @Column(name = "date_prelevement")
     private LocalDate datePrelevement;
+
 }

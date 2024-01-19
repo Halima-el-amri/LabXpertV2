@@ -6,4 +6,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ReactifRepository extends JpaRepository<Reactif, Long> {
+    Reactif findByNomIgnoreCase(String nom);
+
 }

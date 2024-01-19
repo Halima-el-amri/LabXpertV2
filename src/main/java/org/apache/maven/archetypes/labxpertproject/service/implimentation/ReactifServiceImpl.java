@@ -1,4 +1,4 @@
-package org.apache.maven.archetypes.labxpertproject.service.implementation;
+package org.apache.maven.archetypes.labxpertproject.service.implimentation;
 
 import org.apache.maven.archetypes.labxpertproject.DTOs.ReactifDTO;
 import org.apache.maven.archetypes.labxpertproject.entitiy.model.Reactif;
@@ -29,14 +29,34 @@ public class ReactifServiceImpl implements IReactifService {
     @Transactional
     public ReactifDTO addReactif(ReactifDTO reactifDTO) {
         try {
-            Reactif reactif = convertToEntity(reactifDTO);
-            reactif = reactifRepository.save(reactif);
-            System.out.println("Reactif added successfully service");
-            return convertToDTO(reactif);
-        } catch (Exception e) {
-            throw new RuntimeException("Error adding reactif", e);
+            Reactif existingReactif = reactifRepository.findByNomIgnoreCase(reactifDTO.getNom());
+
+            if (existingReactif != null) {
+                // Update existing reactif quantity
+                existingReactif.setQuantite(existingReactif.getQuantite() + reactifDTO.getQuantite());
+                reactifRepository.save(existingReactif);
+
+                // Log the update and return an appropriate response
+                System.out.println("Reactif quantity updated successfully in the service");
+                return convertToDTO(existingReactif);
+            } else {
+                // Create and save a new reactif
+                Reactif reactif = convertToEntity(reactifDTO);
+                reactif = reactifRepository.save(reactif);
+                System.out.println("Reactif added successfully in the service");
+                return convertToDTO(reactif);
+            }
+        } catch (IllegalArgumentException e) {
+            // Log the exception message
+            System.out.println("IllegalArgumentException: " + e.getMessage());
+            throw e; // Rethrow the same exception for better visibility in logs or monitoring tools
         }
     }
+
+
+
+
+
 
     @Override
     @Transactional(readOnly = true)

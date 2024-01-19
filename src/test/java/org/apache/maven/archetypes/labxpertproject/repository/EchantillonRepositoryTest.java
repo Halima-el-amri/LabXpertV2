@@ -1,6 +1,7 @@
 package org.apache.maven.archetypes.labxpertproject.repository;
 
 import org.apache.maven.archetypes.labxpertproject.LabXpertProjectApplication;
+import org.apache.maven.archetypes.labxpertproject.entitiy.enums.SexeType;
 import org.apache.maven.archetypes.labxpertproject.entitiy.model.Analyse;
 import org.apache.maven.archetypes.labxpertproject.entitiy.model.Echantillon;
 import org.apache.maven.archetypes.labxpertproject.entitiy.model.Patient;
@@ -38,7 +39,7 @@ class EchantillonRepositoryTest {
         testPatient = new Patient();
         testPatient.setNom("Test Patient");
         testPatient.setDateDeNaissance(LocalDate.of(1990, 1, 1));
-        testPatient.setSexe("Male");
+        testPatient.setSexe(SexeType.HOMME);
         testPatient.setAdresse("Test Address");
         testPatient.setTelephone("1234567890");
         testPatient = patientRepository.save(testPatient);

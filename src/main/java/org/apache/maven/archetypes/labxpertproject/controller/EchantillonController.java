@@ -5,12 +5,15 @@ import org.apache.maven.archetypes.labxpertproject.service.interfaces.IEchantill
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.persistence.EntityNotFoundException;
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
+@Validated
 @RequestMapping("/api/echantillons")
 public class EchantillonController {
 
@@ -19,15 +22,15 @@ public class EchantillonController {
 
 
 //http://localhost:8080/api/echantillons/21
-    @GetMapping("{id}")
-    public EchantillonDTO getEchantillonById(@PathVariable("id") Long echantillonId) {
-        try {
-            EchantillonDTO echantillonById = echantillonService.getEchantillonById(echantillonId);
-            return echantillonById;
-        } catch (EntityNotFoundException e) {
-            System.out.println("there is no echantillon whith zhis id "+echantillonId);
-        }return null;
+@GetMapping("{id}")
+public ResponseEntity<EchantillonDTO> getEchantillonById(@PathVariable("id") Long echantillonId) {
+    try {
+        EchantillonDTO echantillonById = echantillonService.getEchantillonById(echantillonId);
+        return ResponseEntity.ok(echantillonById);
+    } catch (EntityNotFoundException e) {
+        return ResponseEntity.notFound().build();
     }
+}
     @GetMapping
     public List<EchantillonDTO> getAllEchantillon(){
         List<EchantillonDTO> echantillons = echantillonService.getAllEchantillons();
@@ -35,10 +38,11 @@ public class EchantillonController {
     }
 
     @PostMapping
-    public EchantillonDTO createEchantillon(@RequestBody EchantillonDTO echantillonDTO) {
+    public ResponseEntity<EchantillonDTO> createEchantillon(@Valid @RequestBody EchantillonDTO echantillonDTO) {
         EchantillonDTO createdEchantillon = echantillonService.createEchantillon(echantillonDTO);
-        return createdEchantillon;
+        return new ResponseEntity<>(createdEchantillon, HttpStatus.CREATED);
     }
+
 
     @PutMapping("/{id}")
     public ResponseEntity<EchantillonDTO> updateEchantillon(

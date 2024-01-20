@@ -29,7 +29,10 @@ public class UtilisateurDTO {
     )
     private String password;
 
+
+    @NotNull(message = "Role utilisateur is required")
     private RoleDutilisateur roleDutilisateur;
+
 
     @NotBlank(message = "Informations personalises is required")
     private String InformationsPersonalises;

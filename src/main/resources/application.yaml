@@ -2,7 +2,7 @@ spring:
   datasource:
     url: jdbc:postgresql://localhost:5432/LabXpert
     username: postgres
-    password: 123456
+    password: 50145014
 
   jpa:
     hibernate:

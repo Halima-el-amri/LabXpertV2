@@ -11,21 +11,23 @@ import javax.persistence.*;
 public class SousAnalyse {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "your_sequence_name")
-    @SequenceGenerator(name = "your_sequence_name", sequenceName = "your_sequence_name", allocationSize = 1)
-    private Long resultatId;
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SousAnalyseSequence")
+    @SequenceGenerator(name = "SousAnalyseSequence", sequenceName = "SousAnalyseSequence", allocationSize = 1)
+    private Long sousAnalyseId;
 
-    @Column(name = "resultat")
-    private String resultat;
-
-    @Column(name = "uniteDeMesure")
-    private String uniteDeMesure;
+    @Column(name = "valeur")
+    private double valeur;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "statutDeResultat")
     private StatutDeResultat statutDeResultat;
 
-    @ManyToOne (cascade = CascadeType.REMOVE)
+    @ManyToOne(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "analyse_id")
     private Analyse analyse;
+
+    // Establishing OneToOne relationship with SousAnalyseMesures
+    @OneToOne
+    @JoinColumn(name = "sousAnalyseMesures_id")
+    private SousAnalyseMesures sousAnalyseMesures;
 }

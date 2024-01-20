@@ -30,4 +30,6 @@ public class SousAnalyse {
     @OneToOne
     @JoinColumn(name = "sousAnalyseMesures_id")
     private SousAnalyseMesures sousAnalyseMesures;
+
+
 }

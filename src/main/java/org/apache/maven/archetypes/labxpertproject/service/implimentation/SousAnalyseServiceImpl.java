@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class SousAnalyseService implements ISousAnalyseService {
+public class SousAnalyseServiceImpl implements ISousAnalyseService {
 
     @Autowired
     private SousAnalyseRepository sousAnalyseRepository;
@@ -61,7 +61,6 @@ public class SousAnalyseService implements ISousAnalyseService {
 
         return modelMapper.map(sousAnalyse, SousAnalyseDTO.class);
     }
-
     @Transactional
     public SousAnalyseDTO updateSousAnalyse(Long sousAnalyseId, SousAnalyseDTO updatedSousAnalyseDTO) {
         // Retrieve existing SousAnalyse
@@ -73,17 +72,30 @@ public class SousAnalyseService implements ISousAnalyseService {
 
         // Update SousAnalyseMesures
         SousAnalyseMesures existingSousAnalyseMesures = existingSousAnalyse.getSousAnalyseMesures();
-        modelMapper.map(updatedSousAnalyseDTO, existingSousAnalyseMesures);
-        existingSousAnalyseMesures = sousAnalyseMesuresRepository.save(existingSousAnalyseMesures);
 
-        // Set the updated SousAnalyseMesures
+        if (existingSousAnalyseMesures == null) {
+            // If the existing SousAnalyseMesures is null, create a new instance
+            existingSousAnalyseMesures = new SousAnalyseMesures();
+        }
+
+        // Map the attributes from DTO to existing SousAnalyseMesures
+        modelMapper.map(updatedSousAnalyseDTO, existingSousAnalyseMesures);
+
+        // Set the bidirectional relationship
         existingSousAnalyse.setSousAnalyseMesures(existingSousAnalyseMesures);
+        existingSousAnalyseMesures.setSousAnalyse(existingSousAnalyse);
+
+        // Save the SousAnalyseMesures first
+        sousAnalyseMesuresRepository.save(existingSousAnalyseMesures);
 
         // Save the updated SousAnalyse
         existingSousAnalyse = sousAnalyseRepository.save(existingSousAnalyse);
 
         return modelMapper.map(existingSousAnalyse, SousAnalyseDTO.class);
     }
+
+
+
 
     public void deleteSousAnalyse(Long id) {
         SousAnalyse existingSousAnalyse = sousAnalyseRepository.findById(id)

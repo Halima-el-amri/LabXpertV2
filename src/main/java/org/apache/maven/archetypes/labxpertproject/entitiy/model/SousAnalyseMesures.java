@@ -12,7 +12,7 @@ public class SousAnalyseMesures {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SousAnalyseMesuresSequence")
     @SequenceGenerator(name = "SousAnalyseMesuresSequence", sequenceName = "SousAnalyseMesuresSequence", allocationSize = 1)
-    private Long SousAnalyseMesuresId;
+    private Long sousAnalyseMesuresId;
 
     @Column(name = "analyseName")
     private String analyseName;

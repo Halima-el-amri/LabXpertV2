@@ -1,5 +1,11 @@
 package org.apache.maven.archetypes.labxpertproject.DTOs;
 
-public class AnalyseDTO {
+import lombok.Data;
 
+@Data
+public class AnalyseDTO {
+    private Long analyseId;
+
+    public AnalyseDTO() {
+    }
 }

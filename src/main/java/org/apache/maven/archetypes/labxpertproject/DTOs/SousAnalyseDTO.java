@@ -13,7 +13,8 @@ public class SousAnalyseDTO {
     @NotNull(message = "Valeur must not be null")
     private double valeur;
 
-    //    @NotNull(message = "Analyse ID must not be null")
+//    @NotNull(message = "Analyse ID must not be null")
+
     @Positive(message = "Analyse ID must be a positive number")
     private Long SousAnalyseMesuresId;
 

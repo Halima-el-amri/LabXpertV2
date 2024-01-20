@@ -5,9 +5,12 @@ import org.apache.maven.archetypes.labxpertproject.entitiy.enums.StatutDeResulta
 
 import javax.persistence.*;
 
+@Entity
+@Data
 @Table(name = "SousAnalyse")
 public class SousAnalyse {
 
+    @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SousAnalyseSequence")
     @SequenceGenerator(name = "SousAnalyseSequence", sequenceName = "SousAnalyseSequence", allocationSize = 1)
     private Long sousAnalyseId;
@@ -18,9 +21,6 @@ public class SousAnalyse {
     @Enumerated(EnumType.STRING)
     @Column(name = "statutDeResultat")
     private StatutDeResultat statutDeResultat;
- // In SousAnalyse class
-
-
 
     @ManyToOne(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "analyse_id")
@@ -30,5 +30,6 @@ public class SousAnalyse {
     @OneToOne
     @JoinColumn(name = "sousAnalyseMesures_id")
     private SousAnalyseMesures sousAnalyseMesures;
+
 
 }

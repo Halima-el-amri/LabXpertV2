@@ -3,17 +3,29 @@
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
                                        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.7.xsd">
 
-<!--    <changeSet id="1" author="halima">-->
-<!--        <loadData-->
-<!--                file="classpath:/csv/tests.csv"-->
-<!--                separator=","-->
-<!--                tableName="SousAnalyse">-->
-<!--            <column name="testid" type="NUMERIC"/>-->
-<!--            <column name="nametest" type="STRING"/>-->
-<!--            <column name="minvalue" type="DOUBLE"/>-->
-<!--            <column name="maxvalue" type="DOUBLE"/>-->
-<!--            <column name="measurementunits" type="STRING"/>-->
-<!--        </loadData>-->
-<!--    </changeSet>-->
+    <!-- Import data into SousAnalyseMesures table -->
+    <changeSet id="1" author="halima">
+        <loadData
+                file="classpath:/csv/sousAnalyseMesures.csv"
+                separator=","
+                tableName="SousAnalyseMesures">
+            <column name="id" type="NUMERIC"/>
+            <column name="nom" type="STRING"/>
+            <column name="min" type="DOUBLE"/>
+            <column name="max" type="DOUBLE"/>
+            <column name="unite" type="STRING"/>
+        </loadData>
+    </changeSet>
+
+    <!-- Establish the relationship between SousAnalyse and SousAnalyseMesures -->
+    <changeSet id="2" author="halima">
+        <addForeignKeyConstraint
+                baseTableName="SousAnalyse"
+                baseColumnNames="sousAnalyseMesures_id"
+                constraintName="fk_sousAnalyseMesures"
+                referencedTableName="SousAnalyseMesures"
+                referencedColumnNames="id"
+                onDelete="CASCADE"/>
+    </changeSet>
 
 </databaseChangeLog>

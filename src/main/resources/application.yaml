@@ -9,6 +9,10 @@ spring:
       dialect: org.hibernate.dialect.PostgreSQLDialect
       format_sql: true
     show-sql: true
+  liquibase:
+     change-log: classpath:db/changelog/changelog-master.xml
+     enabled: true
+
 logging:
   level:
     org.springframework: DEBUG

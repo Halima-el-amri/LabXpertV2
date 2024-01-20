@@ -49,13 +49,9 @@ public class ReactifServiceImpl implements IReactifService {
         } catch (IllegalArgumentException e) {
             // Log the exception message
             System.out.println("IllegalArgumentException: " + e.getMessage());
-            throw e; // Rethrow the same exception for better visibility in logs or monitoring tools
+            throw e;
         }
     }
-
-
-
-
 
 
     @Override

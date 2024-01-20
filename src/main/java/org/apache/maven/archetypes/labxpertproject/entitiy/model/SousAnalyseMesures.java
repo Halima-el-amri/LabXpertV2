@@ -23,7 +23,6 @@ public class SousAnalyseMesures {
     @Column(name = "unite")
     private String unite;
 
-    // Establishing OneToOne relationship with SousAnalyse
     @OneToOne(mappedBy = "sousAnalyseMesures", cascade = CascadeType.ALL)
     private SousAnalyse sousAnalyse;
 }

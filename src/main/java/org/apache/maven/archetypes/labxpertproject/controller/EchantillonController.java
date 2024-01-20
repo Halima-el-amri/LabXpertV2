@@ -15,7 +15,7 @@ import java.util.List;
 @RestController
 @Validated
 @RequestMapping("/api/echantillons")
-public class EchantillonController {
+public class    EchantillonController {
 
     @Autowired
     private IEchantillonService echantillonService;

@@ -13,9 +13,9 @@ public class SousAnalyseMesures {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SousAnalyseMesuresSequence")
     @SequenceGenerator(name = "SousAnalyseMesuresSequence", sequenceName = "SousAnalyseMesuresSequence", allocationSize = 1)
     private Long id;
-
     @Column(name = "nom")
     private String nom;
+
 
     @Column(name = "min")
     private double min;

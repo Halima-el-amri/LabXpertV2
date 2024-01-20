@@ -1,6 +1,7 @@
 package org.apache.maven.archetypes.labxpertproject.entitiy.model;
 
 import lombok.Data;
+import org.apache.maven.archetypes.labxpertproject.entitiy.enums.SexeType;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -13,8 +14,10 @@ import java.util.List;
 public class Patient {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "your_sequence_name")
-    @SequenceGenerator(name = "your_sequence_name", sequenceName = "your_sequence_name", allocationSize = 1)
+
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "patient_sequence")
+    @SequenceGenerator(name = "patient_sequence", sequenceName = "patient_sequence", allocationSize = 1)
+
     @Column(name = "patient_id")
     private Long patientId;
 
@@ -25,12 +28,13 @@ public class Patient {
     private LocalDate dateDeNaissance;
 
     @Column(name = "sexe")
-    private String sexe;
+    @Enumerated(EnumType.STRING)
+    private SexeType sexe;
 
     @Column(name = "adresse")
     private String adresse;
 
-    @Column(name = "telephone")
+    @Column(name = "telephone", unique = true)
     private String telephone;
 
 //    @OneToMany(mappedBy = "patient" ,cascade = CascadeType.REMOVE)

@@ -1,9 +1,17 @@
+<<<<<<< HEAD
 //package org.apache.maven.archetypes.labxpertproject.repository;
 //
 //import org.apache.maven.archetypes.labxpertproject.LabXpertProjectApplication;
 //import org.apache.maven.archetypes.labxpertproject.entitiy.enums.StatutDanalyse;
 //import org.apache.maven.archetypes.labxpertproject.entitiy.model.Analyse;
 //import org.apache.maven.archetypes.labxpertproject.entitiy.model.SousAnalyse;
+=======
+//package org.apache.maven.archetypes.labxpertproject.entitiy.model;
+//
+//import org.apache.maven.archetypes.labxpertproject.LabXpertProjectApplication;
+//import org.apache.maven.archetypes.labxpertproject.entitiy.enums.StatutDanalyse;
+//import org.apache.maven.archetypes.labxpertproject.entitiy.enums.StatutDeResultat;
+>>>>>>> dec7f5d82cf7f041194b274c3734caffceabfc45
 //import org.apache.maven.archetypes.labxpertproject.repository.AnalyseRepository;
 //import org.apache.maven.archetypes.labxpertproject.repository.SousAnalyseRepository;
 //import org.junit.jupiter.api.AfterEach;
@@ -22,6 +30,7 @@
 //class SousAnalyseTest {
 //
 //    @Autowired
+<<<<<<< HEAD
 //    private SousAnalyseRepository sousAnalyseRepository;
 //
 //    @Autowired
@@ -29,6 +38,15 @@
 //
 //    private SousAnalyse testSousAnalyse;
 //    private Analyse testAnalyse;
+=======
+//    SousAnalyseRepository sousAnalyseRepository;
+//
+//    @Autowired
+//    AnalyseRepository analyseRepository;
+//
+//    SousAnalyse testSousAnalyse;
+//    Analyse testAnalyse;
+>>>>>>> dec7f5d82cf7f041194b274c3734caffceabfc45
 //
 //    @BeforeEach
 //    void setUp() {
@@ -50,7 +68,11 @@
 //    }
 //
 //    @Test
+<<<<<<< HEAD
 //    void shouldCreateSousAnalyse() {
+=======
+//    void testCreateSousAnalyse() {
+>>>>>>> dec7f5d82cf7f041194b274c3734caffceabfc45
 //        SousAnalyse createdSousAnalyse = sousAnalyseRepository.findById(testSousAnalyse.getResultatId()).orElse(null);
 //
 //        assertThat(createdSousAnalyse).isNotNull();
@@ -58,7 +80,11 @@
 //    }
 //
 //    @Test
+<<<<<<< HEAD
 //    void shouldUpdateSousAnalyse() {
+=======
+//    void testUpdateSousAnalyse() {
+>>>>>>> dec7f5d82cf7f041194b274c3734caffceabfc45
 //        SousAnalyse existingSousAnalyse = sousAnalyseRepository.findById(testSousAnalyse.getResultatId()).orElse(null);
 //        existingSousAnalyse.setResultat("Updated Result");
 //
@@ -71,7 +97,11 @@
 //    }
 //
 //    @Test
+<<<<<<< HEAD
 //    void shouldFindSousAnalyseById() {
+=======
+//    void testFindSousAnalyseById() {
+>>>>>>> dec7f5d82cf7f041194b274c3734caffceabfc45
 //        SousAnalyse foundSousAnalyse = sousAnalyseRepository.findById(testSousAnalyse.getResultatId()).orElse(null);
 //
 //        assertThat(foundSousAnalyse).isNotNull();
@@ -79,7 +109,11 @@
 //    }
 //
 //    @Test
+<<<<<<< HEAD
 //    void shouldDeleteSousAnalyse() {
+=======
+//    void testDeleteSousAnalyse() {
+>>>>>>> dec7f5d82cf7f041194b274c3734caffceabfc45
 //        sousAnalyseRepository.deleteById(testSousAnalyse.getResultatId());
 //
 //        SousAnalyse deletedSousAnalyse = sousAnalyseRepository.findById(testSousAnalyse.getResultatId()).orElse(null);

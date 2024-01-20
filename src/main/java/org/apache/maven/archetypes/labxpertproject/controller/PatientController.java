@@ -2,12 +2,15 @@ package org.apache.maven.archetypes.labxpertproject.controller;
 
 import org.apache.maven.archetypes.labxpertproject.DTOs.PatientDTO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.HttpStatus;
 import java.util.List;
 
 import org.apache.maven.archetypes.labxpertproject.service.interfaces.IPatientService;
+
+import javax.validation.Valid;
 
 
 @RestController
@@ -18,7 +21,7 @@ public class PatientController {
     private IPatientService patientService;
 
     @PostMapping
-    public ResponseEntity<PatientDTO> addPatient(@RequestBody PatientDTO patientDto) {
+    public ResponseEntity<PatientDTO> addPatient(@RequestBody @Valid PatientDTO patientDto) {
         PatientDTO savedPatient = patientService.addPatient(patientDto);
         return new ResponseEntity<>(savedPatient, HttpStatus.CREATED);
     }

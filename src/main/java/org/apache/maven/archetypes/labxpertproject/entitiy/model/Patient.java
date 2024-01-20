@@ -14,8 +14,10 @@ import java.util.List;
 public class Patient {
 
     @Id
+
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "patient_sequence")
     @SequenceGenerator(name = "patient_sequence", sequenceName = "patient_sequence", allocationSize = 1)
+
     @Column(name = "patient_id")
     private Long patientId;
 

@@ -5,8 +5,6 @@ import org.apache.maven.archetypes.labxpertproject.entitiy.enums.StatutDeResulta
 
 import javax.persistence.*;
 
-@Entity
-@Data
 @Table(name = "SousAnalyse")
 public class SousAnalyse {
 
@@ -21,8 +19,7 @@ public class SousAnalyse {
     @Column(name = "statutDeResultat")
     private StatutDeResultat statutDeResultat;
  // In SousAnalyse class
-    @OneToOne(mappedBy = "sousAnalyse", cascade = CascadeType.ALL)
-    private SousAnalyseMesures sousAnalyseMesures;
+
 
 
     @ManyToOne(cascade = CascadeType.REMOVE)
@@ -33,4 +30,5 @@ public class SousAnalyse {
     @OneToOne
     @JoinColumn(name = "sousAnalyseMesures_id")
     private SousAnalyseMesures sousAnalyseMesures;
+
 }

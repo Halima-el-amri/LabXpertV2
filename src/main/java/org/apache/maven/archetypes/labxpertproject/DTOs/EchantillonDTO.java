@@ -10,9 +10,11 @@ import java.util.List;
 
 @Data
 public class EchantillonDTO {
+
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     @Positive(message = "echantillonId must be a positive number")
     private Long echantillonId;
+
 
     @Positive(message = "patientId must be a positive number")
     private Long patientId;

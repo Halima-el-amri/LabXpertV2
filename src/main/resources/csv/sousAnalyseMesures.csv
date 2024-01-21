@@ -1,4 +1,4 @@
-testid,nametest,minvalue,maxvalue,measurementunits
+sous_analyse_mesures_id,analyse_name,min,max,unite
 1,Acide urique,2.0,6.0,mg/dL
 2,Albumin√©mie (M√©thode immunologique),3.5,5.5,g/dL
 3,Ammoni√©mie,15,45,¬µmol/L

@@ -31,5 +31,6 @@ public class SousAnalyse {
     @JoinColumn(name = "sousAnalyseMesures_id")
     private SousAnalyseMesures sousAnalyseMesures;
 
+
 }
 

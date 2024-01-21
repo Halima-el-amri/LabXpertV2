@@ -1,5 +1,6 @@
 package org.apache.maven.archetypes.labxpertproject;
 
+import liquibase.exception.LiquibaseException;
 import org.apache.maven.archetypes.labxpertproject.entitiy.enums.RoleDutilisateur;
 import org.apache.maven.archetypes.labxpertproject.entitiy.model.Analyse;
 import org.apache.maven.archetypes.labxpertproject.entitiy.model.Utilisateur;
@@ -25,39 +26,5 @@ public class LabXpertProjectApplication {
     public ModelMapper modelMapper() {
         return new ModelMapper();
     }
-
-
-//     @Autowired
-//     private PatientRepository patientRepository;
-
-
-
-//     @Bean
-//     public ModelMapper modelMapper() {
-//         return new ModelMapper();
-//     }
-
-//
-//    @Autowired
-//    private AnalyseRepository analyseRepository;
-//    @Autowired
-//    private UtilisateurRepository u   tilisateurRepository;
-//
-//    @PostConstruct
-//    public void init() {
-//        Utilisateur user = new Utilisateur();
-//        user.setNomUtilisateur("admin");
-//        user.setEmail("hassanth@gmail.com");
-//        user.setPassword("admin");
-//        user.setRoleDutilisateur(RoleDutilisateur.ADMINISTRATEUR);
-//        user.setInformationsPersonalises("Test user for testing");
-//        utilisateurRepository.save(user);
-//
-//        Analyse analyse = new Analyse();
-//        analyse.setCommentaire("Test Comment");
-//        analyseRepository.save(analyse);
-//
-//
-//    }
 
 }

@@ -40,7 +40,7 @@ class PatientRepositoryTest {
         void setUp() {
             testPatient = new Patient();
             testPatient.setNom("Test Patient");
-            testPatient.setDateDeNaissance(new Date(1990, Calendar.JANUARY, 1));
+            testPatient.setDateDeNaissance("1988-12-01");
             testPatient.setSexe(SexeType.HOMME);
             testPatient.setAdresse("Test Address");
             testPatient.setTelephone("123456789");

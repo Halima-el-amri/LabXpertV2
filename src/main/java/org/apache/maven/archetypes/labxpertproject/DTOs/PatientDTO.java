@@ -27,11 +27,11 @@ public class PatientDTO {
     @Size(min = 5, max = 20, message = "Le nom d'patient doit comporter entre 5 et 50 caractères")
     private String nom;
 
-    //@Pattern(regexp = "^\\d{4}-\\d{2}-\\d{2}$",
-    //message = "Format de la date de naissance et invalide ,veuillez respecter le format suivant dd-mm-yyyy")
-    //@NotBlank(message = "Veuillez fournir la date de naissance")
+    @Pattern(regexp = "^\\d{4}-\\d{2}-\\d{2}$",
+            message = "Format de la date de naissance et invalide ,veuillez respecter le format suivant dd-mm-yyyy")
+    @NotBlank(message = "Veuillez fournir la date de naissance")
     @NotNull(message = "La date de naissance ne peut pas être null")
-    private Date dateDeNaissance;
+    private String dateDeNaissance;
 
     @NotNull(message = "Le nom ne peut pas être null")
     private SexeType sexe;

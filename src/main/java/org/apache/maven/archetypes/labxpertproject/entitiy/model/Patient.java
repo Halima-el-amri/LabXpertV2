@@ -24,7 +24,7 @@ public class Patient {
     private String nom;
 
     @Column(name = "date_de_naissance")
-    private Date dateDeNaissance;
+    private String dateDeNaissance;
 
     @Column(name = "sexe")
     @Enumerated(EnumType.STRING)

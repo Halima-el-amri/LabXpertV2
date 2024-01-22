@@ -21,6 +21,7 @@ public class LabXpertProjectApplication {
     public static void main(String[] args) {
         SpringApplication.run(LabXpertProjectApplication.class, args);
     }
+
     @Bean
     public ModelMapper modelMapper() {
         return new ModelMapper();

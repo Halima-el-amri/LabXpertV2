@@ -71,7 +71,6 @@ public class PatientServiceImpl implements IPatientService {
         } catch (Exception e) {
             throw new RuntimeException("Error updating patient", e);
         }
-
     }
 
     @Override

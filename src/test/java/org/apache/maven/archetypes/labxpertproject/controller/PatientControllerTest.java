@@ -1,6 +1,8 @@
 package org.apache.maven.archetypes.labxpertproject.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.hamcrest.CoreMatchers;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -9,20 +11,20 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.ResultActions;
 
 
-import java.time.LocalDate;
-import java.util.Arrays;
-
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Arrays;
+import java.util.Calendar;
 
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
 
 import org.apache.maven.archetypes.labxpertproject.DTOs.PatientDTO;
 import org.apache.maven.archetypes.labxpertproject.entitiy.enums.SexeType;
@@ -38,31 +40,53 @@ public class PatientControllerTest {
     @Autowired
     MockMvc mockMvc;
 
+    @Autowired
+    private ObjectMapper objectMapper;
+    private PatientDTO existingPatientDto;
+
+    @BeforeEach
+    void setUp() {
+        existingPatientDto = new PatientDTO();
+        existingPatientDto.setPatientId(1L);
+        existingPatientDto.setNom("rachid");
+        existingPatientDto.setDateDeNaissance("1988-12-01");
+        existingPatientDto.setSexe(SexeType.HOMME);
+        existingPatientDto.setAdresse("France");
+        existingPatientDto.setTelephone("+212-699-109-586");
+    }
+
     @Test
     public void test_addPatient() throws Exception {
 
-        PatientDTO patientDto = new PatientDTO(50L, "rachid", new Date(1988, Calendar.NOVEMBER, 7), SexeType.HOMME, "France", "+212-699-109-586");
+        when(patientService.addPatient(this.existingPatientDto)).thenReturn(this.existingPatientDto);
 
-        when(patientService.addPatient(patientDto)).thenReturn(patientDto);
-        mockMvc.perform(post("/api/patient")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(new ObjectMapper().writeValueAsString(patientDto)))
+        ResultActions resultAction = mockMvc.perform(post("/api/patient")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(existingPatientDto)));
+
+        resultAction.andExpect(jsonPath("$.nom", CoreMatchers.is(existingPatientDto.getNom())))
+                .andExpect(jsonPath("$.dateDeNaissance", CoreMatchers.is(existingPatientDto.getDateDeNaissance())))
+                .andExpect(jsonPath("$.sexe", CoreMatchers.is(existingPatientDto.getSexe())))
+                .andExpect(jsonPath("$.Adresse", CoreMatchers.is(existingPatientDto.getAdresse())))
+                .andExpect(jsonPath("$.telephone", CoreMatchers.is(existingPatientDto.getTelephone())))
                 .andExpect(status().isOk());
     }
 
     @Test
     public void test_getPatientById() throws Exception {
+        Long patientId = 1L;
 
-        PatientDTO patientDto = new PatientDTO(50L, "rachid",  new Date(1988, Calendar.NOVEMBER, 7), SexeType.HOMME, "France", "+212-699-109-586");
+        when(patientService.getPatientById(patientId)).thenReturn(this.existingPatientDto);
 
-        when(patientService.addPatient(patientDto))
-                .thenReturn(patientDto);
+        ResultActions resultAction = mockMvc.perform(get("/api/patient/{id}", patientId)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(existingPatientDto)));
 
-        mockMvc.perform(get("/api/patient/{id}", 50L)
-                        .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.name").value("rachid"))
-                .andExpect(jsonPath("$.address").value("France"))
-                .andExpect(jsonPath("$.telephone").value("+212-699-109-586"))
+        resultAction.andExpect(jsonPath("$.nom", CoreMatchers.is(existingPatientDto.getNom())))
+                .andExpect(jsonPath("$.dateDeNaissance", CoreMatchers.is(existingPatientDto.getDateDeNaissance())))
+                .andExpect(jsonPath("$.sexe", CoreMatchers.is(existingPatientDto.getSexe())))
+                .andExpect(jsonPath("$.Adresse", CoreMatchers.is(existingPatientDto.getAdresse())))
+                .andExpect(jsonPath("$.telephone", CoreMatchers.is(existingPatientDto.getTelephone())))
                 .andExpect(status().isOk());
     }
 
@@ -70,37 +94,39 @@ public class PatientControllerTest {
     public void test_getAllPatients() throws Exception {
 
         List<PatientDTO> patientDTOList = Arrays.asList(
-                new PatientDTO(50L, "rachid",  new Date(1988, Calendar.NOVEMBER, 7), SexeType.HOMME, "France", "+212-699-109-485"),
-                new PatientDTO(51L, "hassan",  new Date(1989, Calendar.MARCH, 5), SexeType.HOMME, "espagne", "+212-699-109-254"),
-                new PatientDTO(52L, "mohamed",  new Date(1986, Calendar.JANUARY, 2), SexeType.HOMME, "maroc", "+212-699-109-782")
+                new PatientDTO(50L, "rachid", "1988-11-07", SexeType.HOMME, "France", "+212-697-159-788"),
+                new PatientDTO(51L, "hassan", "2000-08-01", SexeType.HOMME, "espagne", "+212-698-106-454"),
+                new PatientDTO(52L, "Halima", "1996-05-03", SexeType.FEMME, "maroc", "+212-689-105-732")
         );
 
         when(patientService.getAllPatients()).thenReturn(patientDTOList);
 
-        mockMvc.perform(get("/api/patient").contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
-                .andDo(print());
+        ResultActions resultAction = mockMvc.perform(get("/api/patient")
+                .contentType(MediaType.APPLICATION_JSON));
+
+        resultAction.andExpect(status().isOk()).andDo(print());
     }
 
     @Test
     public void test_updatePatient() throws Exception {
 
-        PatientDTO existingPatientDto = new PatientDTO(50L, "hassan",  new Date(1982, Calendar.APRIL, 2), SexeType.HOMME, "France", "+212-699-109-586");
-        PatientDTO updatedPatientDto = new PatientDTO(50L, "rachid",  new Date(1988, Calendar.NOVEMBER, 7), SexeType.HOMME, "Kenitra", "+212-699-109-587");
+        PatientDTO updatedPatientDto = new PatientDTO(50L, "rachid", "1988-11-07", SexeType.HOMME, "France", "+212-697-159-788");
 
         when(patientService.getPatientById(50L)).thenReturn(existingPatientDto);
+
         when(patientService.updatePatient(existingPatientDto)).thenReturn(updatedPatientDto);
 
-        mockMvc.perform(put("api/patient/50")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(new ObjectMapper().writeValueAsString(updatedPatientDto)))
-                .andExpect(jsonPath("$.patientId").value(50L))
-                .andExpect(jsonPath("$.name").value("rachid"))
-                .andExpect(jsonPath("$.dateDeNaissance").value("1990-01-1"))
-                .andExpect(jsonPath("$.sexe").value("HOMME"))
-                .andExpect(jsonPath("$.address").value("Kenitra"))
-                .andExpect(jsonPath("$.telephone").value("+212-699-109-587"))
+        ResultActions resultAction = mockMvc.perform(put("api/patient/50")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(new ObjectMapper().writeValueAsString(updatedPatientDto)));
+
+        resultAction.andExpect(jsonPath("$.nom", CoreMatchers.is(existingPatientDto.getNom())))
+                .andExpect(jsonPath("$.dateDeNaissance", CoreMatchers.is(existingPatientDto.getDateDeNaissance())))
+                .andExpect(jsonPath("$.sexe", CoreMatchers.is(existingPatientDto.getSexe())))
+                .andExpect(jsonPath("$.Adresse", CoreMatchers.is(existingPatientDto.getAdresse())))
+                .andExpect(jsonPath("$.telephone", CoreMatchers.is(existingPatientDto.getTelephone())))
                 .andExpect(status().isOk());
+
         verify(patientService, times(1)).getPatientById(50L);
         verify(patientService, times(1)).updatePatient(existingPatientDto);
 
@@ -109,15 +135,15 @@ public class PatientControllerTest {
     @Test
     public void test_deletePatient() throws Exception {
 
-        PatientDTO patientDto = new PatientDTO(50L, "rachid",  new Date(2000, Calendar.DECEMBER, 4), SexeType.HOMME, "France", "+212-689-109-584");
-        PatientDTO patientDto1 = new PatientDTO(51L, "HASSAN",  new Date(1988, Calendar.MAY, 7), SexeType.HOMME, "France", "+212-659-159-587");
-        PatientDTO patientDto2 = new PatientDTO(52L, "BRAHIM",  new Date(2002, Calendar.AUGUST, 2), SexeType.HOMME, "France", "+212-299-109-584");
+        new PatientDTO(50L, "rachid", "1988-11-07", SexeType.HOMME, "France", "+212-697-159-788");
+        new PatientDTO(51L, "hassan", "2000-08-01", SexeType.HOMME, "espagne", "+212-698-106-454");
+        new PatientDTO(52L, "Halima", "1996-05-03", SexeType.FEMME, "maroc", "+212-689-105-732");
 
         long patientId = 50L;
 
         doNothing().when(patientService).deletePatient(patientId);
 
-        mockMvc.perform(delete("/api/patient")
+        mockMvc.perform(delete("/api/patient/50")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(new ObjectMapper().writeValueAsString(patientId)))
                 .andExpect(status().isOk());

@@ -1,6 +1,7 @@
 package org.apache.maven.archetypes.labxpertproject.entitiy.model;
 
 import lombok.Data;
+import org.apache.maven.archetypes.labxpertproject.entitiy.enums.AnalyseType;
 import org.apache.maven.archetypes.labxpertproject.entitiy.enums.StatutDanalyse;
 
 import javax.persistence.*;
@@ -38,6 +39,10 @@ public class Analyse {
     @Column(name = "Commentaire")
     private String commentaire;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "AnalyseType")
+    private AnalyseType analyseType;
+
     @ManyToOne  (cascade = CascadeType.REMOVE)
     @JoinColumn(name = "planification_id")
     private Planification planification;
@@ -45,7 +50,7 @@ public class Analyse {
     @ManyToOne (cascade = CascadeType.REMOVE)
     @JoinColumn(name = "echantillon_id")
     private Echantillon echantillon;
-//
+
 //    @ManyToOne (cascade = CascadeType.REMOVE)
 //    @JoinColumn(name = "patient_id")
 //    private Patient patient;

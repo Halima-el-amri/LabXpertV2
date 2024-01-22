@@ -1,6 +1,7 @@
 package org.apache.maven.archetypes.labxpertproject.DTOs;
 
 import lombok.Data;
+import org.apache.maven.archetypes.labxpertproject.entitiy.enums.AnalyseType;
 import org.apache.maven.archetypes.labxpertproject.entitiy.enums.StatutDanalyse;
 
 import javax.validation.constraints.NotNull;
@@ -22,13 +23,12 @@ public class AnalyseDTO {
 
     private List<Long> sousAnalysesIds;
 
-
+    private AnalyseType analyseType;
 //    @NotNull(message = "EtatAnalyse must not be null")
 
     private StatutDanalyse etatAnalyse;
 
     private String commentaire;
-
 
 //    @NotNull(message = "Planification ID must not be null")
     private Long planificationId;

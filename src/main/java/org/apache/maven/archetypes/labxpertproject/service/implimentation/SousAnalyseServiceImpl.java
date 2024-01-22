@@ -96,7 +96,6 @@ public class SousAnalyseServiceImpl implements ISousAnalyseService {
 
 
 
-
     public void deleteSousAnalyse(Long id) {
         SousAnalyse existingSousAnalyse = sousAnalyseRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("SousAnalyse not found with id: " + id));

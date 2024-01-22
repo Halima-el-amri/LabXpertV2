@@ -12,7 +12,8 @@ public class AnalyseDTO {
 
     private Long analyseId;
 
-    //    @NotNull(message = "Utilisateur ID must not be null")
+
+//    @NotNull(message = "Utilisateur ID must not be null")
     private Long utilisateurId;
 
     private LocalDate dateDebutAnalyse;
@@ -21,16 +22,20 @@ public class AnalyseDTO {
 
     private List<Long> sousAnalysesIds;
 
-    //    @NotNull(message = "EtatAnalyse must not be null")
+
+//    @NotNull(message = "EtatAnalyse must not be null")
+
     private StatutDanalyse etatAnalyse;
 
     private String commentaire;
 
-    //    @NotNull(message = "Planification ID must not be null")
+
+//    @NotNull(message = "Planification ID must not be null")
     private Long planificationId;
 
-    //    @NotNull(message = "Echantillon ID must not be null")
+//    @NotNull(message = "Echantillon ID must not be null")
     private Long echantillonId;
 
     private List<Long> reactifsIds;
 }
+

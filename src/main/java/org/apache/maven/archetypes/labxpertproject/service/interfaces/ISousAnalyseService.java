@@ -15,4 +15,5 @@ public interface ISousAnalyseService {
     SousAnalyseDTO updateSousAnalyse(Long sousAnalyseId, SousAnalyseDTO updatedSousAnalyseDTO);
 
     void deleteSousAnalyse(Long id);
+
 }

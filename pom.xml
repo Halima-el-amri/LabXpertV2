@@ -76,10 +76,10 @@
             <artifactId>modelmapper</artifactId>
             <version>3.2.0</version>
         </dependency>
-<!--        <dependency>-->
-<!--            <groupId>org.liquibase</groupId>-->
-<!--            <artifactId>liquibase-core</artifactId>-->
-<!--        </dependency>-->
+        <dependency>
+            <groupId>org.liquibase</groupId>
+            <artifactId>liquibase-core</artifactId>
+        </dependency>
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -95,20 +95,7 @@
 
     <build>
         <plugins>
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-            </plugin>
 
-<!--            <plugin>-->
-<!--                <groupId>org.liquibase</groupId>-->
-<!--                <artifactId>liquibase-maven-plugin</artifactId>-->
-
-<!--                <configuration>-->
-<!--                    <propertyFile>src/main/resources/application.yaml</propertyFile>-->
-<!--                    <propertyFileWillOverride>true</propertyFileWillOverride>-->
-<!--                </configuration>-->
-<!--            </plugin>-->
         </plugins>
     </build>
 

@@ -1,9 +1,9 @@
 package org.apache.maven.archetypes.labxpertproject.controller;
 
+import org.apache.maven.archetypes.labxpertproject.DTOs.CombinedSousAnalyseDTO;
 import org.apache.maven.archetypes.labxpertproject.DTOs.SousAnalyseDTO;
 import org.apache.maven.archetypes.labxpertproject.DTOs.SousAnalyseMesuresDTO;
 import org.apache.maven.archetypes.labxpertproject.service.interfaces.ISousAnalyseService;
-import org.apache.maven.archetypes.labxpertproject.service.interfaces.ISousAnalyseMesuresService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,9 +17,6 @@ public class SousAnalyseController {
 
     @Autowired
     private ISousAnalyseService sousAnalyseService;
-
-    @Autowired
-    private ISousAnalyseMesuresService sousAnalyseMesuresService;
 
     @PostMapping
     public ResponseEntity<SousAnalyseDTO> createSousAnalyse(@RequestBody SousAnalyseDTO sousAnalyseDTO) {
@@ -54,13 +51,13 @@ public class SousAnalyseController {
 
     @GetMapping("/mesures/all")
     public ResponseEntity<List<SousAnalyseMesuresDTO>> getAllSousAnalyseMesures() {
-        List<SousAnalyseMesuresDTO> mesures = sousAnalyseMesuresService.getAllSousAnalyseMesures();
+        List<SousAnalyseMesuresDTO> mesures = sousAnalyseService.getAllSousAnalyseMesures();
         return new ResponseEntity<>(mesures, HttpStatus.OK);
     }
 
-    @GetMapping("/mesures/{id}")
-    public ResponseEntity<SousAnalyseMesuresDTO> getSousAnalyseMesuresById(@PathVariable Long id) {
-        SousAnalyseMesuresDTO mesures = sousAnalyseMesuresService.getSousAnalyseMesures(id);
-        return new ResponseEntity<>(mesures, HttpStatus.OK);
+    @GetMapping("/mesures/{sousAnalyseId}/{sousAnalyseMesuresId}")
+    public ResponseEntity<CombinedSousAnalyseDTO> getSousAnalyseMesuresById(@PathVariable Long sousAnalyseId, @PathVariable Long sousAnalyseMesuresId) {
+        CombinedSousAnalyseDTO combinedDTO = sousAnalyseService.getSousAnalyseMesures(sousAnalyseMesuresId, sousAnalyseId);
+        return new ResponseEntity<>(combinedDTO, HttpStatus.OK);
     }
 }

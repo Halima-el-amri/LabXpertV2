@@ -94,8 +94,6 @@ public class SousAnalyseServiceImpl implements ISousAnalyseService {
         return modelMapper.map(existingSousAnalyse, SousAnalyseDTO.class);
     }
 
-
-
     public void deleteSousAnalyse(Long id) {
         SousAnalyse existingSousAnalyse = sousAnalyseRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("SousAnalyse not found with id: " + id));

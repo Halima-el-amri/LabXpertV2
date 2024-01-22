@@ -5,8 +5,10 @@ import org.hamcrest.CoreMatchers;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentMatchers;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
@@ -19,6 +21,7 @@ import java.util.List;
 import java.util.Arrays;
 import java.util.Calendar;
 
+import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -30,8 +33,12 @@ import org.apache.maven.archetypes.labxpertproject.DTOs.PatientDTO;
 import org.apache.maven.archetypes.labxpertproject.entitiy.enums.SexeType;
 import org.apache.maven.archetypes.labxpertproject.service.interfaces.IPatientService;
 
+//@ExtendWith(MockitoExtension.class)
+//@WebMvcTest(PatientController.class)
+
+@WebMvcTest(controllers = PatientController.class)
+@AutoConfigureMockMvc(addFilters = false)
 @ExtendWith(MockitoExtension.class)
-@WebMvcTest(PatientController.class)
 public class PatientControllerTest {
 
     @MockBean
@@ -45,7 +52,7 @@ public class PatientControllerTest {
     private PatientDTO existingPatientDto;
 
     @BeforeEach
-    void setUp() {
+    void init() {
         existingPatientDto = new PatientDTO();
         existingPatientDto.setPatientId(1L);
         existingPatientDto.setNom("rachid");
@@ -58,7 +65,7 @@ public class PatientControllerTest {
     @Test
     public void test_addPatient() throws Exception {
 
-        when(patientService.addPatient(this.existingPatientDto)).thenReturn(this.existingPatientDto);
+        given(patientService.addPatient(ArgumentMatchers.any())).willAnswer((invocation -> invocation.getArgument(0)));
 
         ResultActions resultAction = mockMvc.perform(post("/api/patient")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -66,11 +73,12 @@ public class PatientControllerTest {
 
         resultAction.andExpect(jsonPath("$.nom", CoreMatchers.is(existingPatientDto.getNom())))
                 .andExpect(jsonPath("$.dateDeNaissance", CoreMatchers.is(existingPatientDto.getDateDeNaissance())))
-                .andExpect(jsonPath("$.sexe", CoreMatchers.is(existingPatientDto.getSexe())))
-                .andExpect(jsonPath("$.Adresse", CoreMatchers.is(existingPatientDto.getAdresse())))
+                .andExpect(jsonPath("$.sexe", CoreMatchers.is(existingPatientDto.getSexe().toString())))
+                .andExpect(jsonPath("$.adresse", CoreMatchers.is(existingPatientDto.getAdresse())))
                 .andExpect(jsonPath("$.telephone", CoreMatchers.is(existingPatientDto.getTelephone())))
                 .andExpect(status().isOk());
     }
+
 
     @Test
     public void test_getPatientById() throws Exception {

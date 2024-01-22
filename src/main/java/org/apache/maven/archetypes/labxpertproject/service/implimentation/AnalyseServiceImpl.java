@@ -1,10 +1,11 @@
 package org.apache.maven.archetypes.labxpertproject.service.implimentation;
+import org.apache.maven.archetypes.labxpertproject.entitiy.enums.StatutDanalyse;
+import org.apache.maven.archetypes.labxpertproject.entitiy.model.*;
+import org.apache.maven.archetypes.labxpertproject.repository.*;
 import org.apache.maven.archetypes.labxpertproject.service.interfaces.IAnalyseService;
 
 
 import org.apache.maven.archetypes.labxpertproject.DTOs.AnalyseDTO;
-import org.apache.maven.archetypes.labxpertproject.entitiy.model.Analyse;
-import org.apache.maven.archetypes.labxpertproject.repository.AnalyseRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,7 +21,19 @@ public class AnalyseServiceImpl implements IAnalyseService {
     private AnalyseRepository analyseRepository;
 
     @Autowired
+    private ReactifRepository reactifRepository;
+
+    @Autowired
     private ModelMapper modelMapper;
+
+    @Autowired
+    private EchantillonRepository echantillonRepository;
+
+    @Autowired
+    private PlanificationRepository planificationRepository;
+
+    @Autowired
+    private UtilisateurRepository utilisateurRepository;
 
     public AnalyseDTO getAnalyseById(Long id) {
         Analyse analyse = analyseRepository.findById(id)
@@ -37,7 +50,37 @@ public class AnalyseServiceImpl implements IAnalyseService {
     }
 
     public AnalyseDTO addAnalyse(AnalyseDTO analyseDTO) {
+        long count = analyseRepository.countByEtatAnalyse(StatutDanalyse.EN_COURS_DANALYSE);
+        if (count >= 5) {
+            analyseDTO.setEtatAnalyse(StatutDanalyse.EN_ATTENTE);
+        }
+        for (Long reactifId : analyseDTO.getReactifsIds()) {
+            Reactif reactif = reactifRepository.findById(reactifId)
+                    .orElseThrow(() -> new EntityNotFoundException("Reactif not found with id: " + reactifId));
+            if (reactif.getQuantite() <= 0) {
+                throw new RuntimeException("Insufficient quantity for reactif with id: " + reactifId);
+            }
+        }
         Analyse analyse = modelMapper.map(analyseDTO, Analyse.class);
+
+        Echantillon echantillon = echantillonRepository.findById(analyseDTO.getEchantillonId()).orElse(null);
+        if (echantillon == null) {
+            throw new EntityNotFoundException("Echantillon not found with id: " + analyseDTO.getEchantillonId());
+        }
+        analyse.setEchantillon(echantillon);
+
+        Planification planification = planificationRepository.findById(analyseDTO.getPlanificationId()).orElse(null);
+        if (planification == null) {
+            throw new EntityNotFoundException("Planification not found with id: " + analyseDTO.getPlanificationId());
+        }
+        analyse.setPlanification(planification);
+
+        Utilisateur utilisateur = utilisateurRepository.findById(analyseDTO.getUtilisateurId()).orElse(null);
+        if (utilisateur == null) {
+            throw new EntityNotFoundException("Utilisateur not found with id: " + analyseDTO.getUtilisateurId());
+        }
+        analyse.setUtilisateur(utilisateur);
+
         Analyse savedAnalyse = analyseRepository.save(analyse);
         return modelMapper.map(savedAnalyse, AnalyseDTO.class);
     }

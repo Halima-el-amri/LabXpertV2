@@ -1,8 +1,11 @@
 package org.apache.maven.archetypes.labxpertproject.service.implimentation;
 
 import org.apache.maven.archetypes.labxpertproject.DTOs.EchantillonDTO;
+import org.apache.maven.archetypes.labxpertproject.DTOs.PatientDTO;
 import org.apache.maven.archetypes.labxpertproject.entitiy.model.Echantillon;
+import org.apache.maven.archetypes.labxpertproject.entitiy.model.Patient;
 import org.apache.maven.archetypes.labxpertproject.repository.EchantillonRepository;
+import org.apache.maven.archetypes.labxpertproject.repository.PatientRepository;
 import org.apache.maven.archetypes.labxpertproject.service.interfaces.IEchantillonService;
 import org.modelmapper.Conditions;
 import org.modelmapper.ModelMapper;
@@ -19,6 +22,9 @@ public class EchantillonServiceImpl implements IEchantillonService {
 
     @Autowired
     private EchantillonRepository echantillonRepository;
+
+    @Autowired
+    private PatientRepository patientRepository;
 
     @Autowired
     private ModelMapper modelMapper;
@@ -41,10 +47,24 @@ public class EchantillonServiceImpl implements IEchantillonService {
 
     @Override
     public EchantillonDTO createEchantillon(EchantillonDTO echantillonDTO) {
+        Patient patient = patientRepository.findById(echantillonDTO.getPatientId())
+                .orElseThrow(() -> new EntityNotFoundException("Patient not found with id: " + echantillonDTO.getPatientId()));
+
         Echantillon echantillon = modelMapper.map(echantillonDTO, Echantillon.class);
+        echantillon.setPatient(patient);
+
         Echantillon savedEchantillon = echantillonRepository.save(echantillon);
-        return modelMapper.map(savedEchantillon, EchantillonDTO.class);
+
+        // Map the saved Echantillon to EchantillonDTO
+        EchantillonDTO responseDTO = modelMapper.map(savedEchantillon, EchantillonDTO.class);
+
+        // Map the associated Patient to PatientDTO
+        responseDTO.setPatient(modelMapper.map(patient, PatientDTO.class));
+
+        return responseDTO;
     }
+
+
 
     @Override
     public EchantillonDTO updateEchantillon(Long echantillonId, EchantillonDTO updatedEchantillonDTO) {

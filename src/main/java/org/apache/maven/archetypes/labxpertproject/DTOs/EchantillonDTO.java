@@ -1,7 +1,10 @@
 package org.apache.maven.archetypes.labxpertproject.DTOs;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
+import org.apache.maven.archetypes.labxpertproject.entitiy.model.Patient;
+
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PastOrPresent;
 import javax.validation.constraints.Positive;
@@ -15,13 +18,16 @@ public class EchantillonDTO {
     @Positive(message = "echantillonId must be a positive number")
     private Long echantillonId;
 
-
+    @NotNull(message = "patientId must not be null")
     @Positive(message = "patientId must be a positive number")
     private Long patientId;
+
+    private PatientDTO patient; // Include PatientDTO field
 
     @NotNull(message = "datePrelevement must not be null")
     @PastOrPresent(message = "The datePrelevement must be in the past or present")
     private LocalDate datePrelevement;
-    @NotNull(message = "analyses must not be null")
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private List<AnalyseDTO> analyses;
 }

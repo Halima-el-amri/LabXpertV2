@@ -11,8 +11,8 @@ import java.util.List;
 @Table(name = "echantillon")
 public class Echantillon {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "your_sequence_name")
-    @SequenceGenerator(name = "your_sequence_name", sequenceName = "your_sequence_name", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "echantillon_sequence")
+    @SequenceGenerator(name = "echantillon_sequence", sequenceName ="echantillon_sequence", allocationSize = 1)
     @Column(name = "echantillon_id")
     private Long echantillonId;
 
@@ -20,7 +20,7 @@ public class Echantillon {
     @JoinColumn(name = "patient_id")
     private Patient patient;
 
-    @OneToMany(mappedBy = "echantillon" ,cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "echantillon")
     private List<Analyse> analyses;
 
 

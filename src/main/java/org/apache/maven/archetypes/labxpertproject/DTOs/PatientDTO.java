@@ -29,7 +29,9 @@ public class PatientDTO {
     //message = "Format de la date de naissance et invalide ,veuillez respecter le format suivant dd-mm-yyyy")
     //@NotBlank(message = "Veuillez fournir la date de naissance")
     @NotNull(message = "La date de naissance ne peut pas être null")
+    @FutureOrPresent(message = "La date de naissance doit être dans le passé ou le présent")
     private LocalDate dateDeNaissance;
+
 
     @NotNull(message = "Le nom ne peut pas être null")
     private SexeType sexe;

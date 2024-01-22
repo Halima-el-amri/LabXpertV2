@@ -1,13 +1,16 @@
 spring:
   datasource:
+    ## PostgresSql
     url: jdbc:postgresql://localhost:5432/LabXpert
     username: postgres
     password: pg8891
   jpa:
     hibernate:
       ddl-auto: update
+      # Allows Hibernate to generate SQL optimized for a particular DBMS
       dialect: org.hibernate.dialect.PostgreSQLDialect
       format_sql: true
+    # drop n create table, good for testing, comment this in production
     show-sql: true
 logging:
   level:

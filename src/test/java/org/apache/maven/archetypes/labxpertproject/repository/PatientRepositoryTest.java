@@ -14,6 +14,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
 import java.time.LocalDate;
+import java.util.Calendar;
+import java.util.Date;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
@@ -38,7 +40,7 @@ class PatientRepositoryTest {
         void setUp() {
             testPatient = new Patient();
             testPatient.setNom("Test Patient");
-            testPatient.setDateDeNaissance(LocalDate.of(1990, 1, 1));
+            testPatient.setDateDeNaissance(new Date(1990, Calendar.JANUARY, 1));
             testPatient.setSexe(SexeType.HOMME);
             testPatient.setAdresse("Test Address");
             testPatient.setTelephone("123456789");

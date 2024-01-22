@@ -34,7 +34,7 @@ public class PatientController {
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<PatientDTO> getPatient(@PathVariable("id") Long patientId) {
+    public ResponseEntity<PatientDTO> getPatientById(@PathVariable("id") Long patientId) {
         PatientDTO savedPatient = patientService.getPatientById(patientId);
         return new ResponseEntity<>(savedPatient, HttpStatus.OK);
     }
@@ -43,7 +43,7 @@ public class PatientController {
     public ResponseEntity<PatientDTO> updatePatient(@PathVariable("id") Long patientId, @RequestBody PatientDTO patientDto) {
         patientDto.setPatientId(patientId);
         PatientDTO updatePatient = patientService.updatePatient(patientDto);
-         return new ResponseEntity<>( patientService.updatePatient(updatePatient), HttpStatus.OK );
+         return new ResponseEntity<>( updatePatient, HttpStatus.OK );
     }
 
     @DeleteMapping("/{id}")

@@ -1,6 +1,7 @@
 package org.apache.maven.archetypes.labxpertproject.DTOs;
 
 import java.time.LocalDate;
+import java.util.Date;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -10,6 +11,7 @@ import org.apache.maven.archetypes.labxpertproject.entitiy.enums.SexeType;
 
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.*;
 
 @Getter
@@ -29,7 +31,7 @@ public class PatientDTO {
     //message = "Format de la date de naissance et invalide ,veuillez respecter le format suivant dd-mm-yyyy")
     //@NotBlank(message = "Veuillez fournir la date de naissance")
     @NotNull(message = "La date de naissance ne peut pas être null")
-    private LocalDate dateDeNaissance;
+    private Date dateDeNaissance;
 
     @NotNull(message = "Le nom ne peut pas être null")
     private SexeType sexe;

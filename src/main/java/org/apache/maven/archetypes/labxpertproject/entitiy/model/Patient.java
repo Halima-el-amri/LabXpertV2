@@ -6,6 +6,7 @@ import org.apache.maven.archetypes.labxpertproject.entitiy.enums.SexeType;
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -23,7 +24,7 @@ public class Patient {
     private String nom;
 
     @Column(name = "date_de_naissance")
-    private LocalDate dateDeNaissance;
+    private Date dateDeNaissance;
 
     @Column(name = "sexe")
     @Enumerated(EnumType.STRING)

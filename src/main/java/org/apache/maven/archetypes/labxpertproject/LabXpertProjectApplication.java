@@ -14,7 +14,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
 import javax.annotation.PostConstruct;
-
+//@EnableSwager2
 @SpringBootApplication
 public class LabXpertProjectApplication {
 

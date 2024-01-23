@@ -28,7 +28,6 @@ public class PatientServiceImpl implements IPatientService {
             Patient patient = convertToEntity(patientDto);
             patient = patientRepository.save(patient);
             return convertToDTO(patient);
-
         } catch (Exception e) {
             throw new RuntimeException("Error adding Patient", e);
         }

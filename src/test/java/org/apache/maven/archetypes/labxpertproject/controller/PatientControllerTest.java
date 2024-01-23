@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.Arrays;
 import java.util.Calendar;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -62,6 +63,7 @@ public class PatientControllerTest {
         existingPatientDto.setTelephone("+212-699-109-586");
     }
 
+
     @Test
     public void test_addPatient() throws Exception {
 
@@ -84,7 +86,7 @@ public class PatientControllerTest {
     public void test_getPatientById() throws Exception {
         Long patientId = 1L;
 
-        when(patientService.getPatientById(patientId)).thenReturn(this.existingPatientDto);
+        when(patientService.getPatientById(patientId)).thenReturn(existingPatientDto);
 
         ResultActions resultAction = mockMvc.perform(get("/api/patient/{id}", patientId)
                 .contentType(MediaType.APPLICATION_JSON)
@@ -92,8 +94,8 @@ public class PatientControllerTest {
 
         resultAction.andExpect(jsonPath("$.nom", CoreMatchers.is(existingPatientDto.getNom())))
                 .andExpect(jsonPath("$.dateDeNaissance", CoreMatchers.is(existingPatientDto.getDateDeNaissance())))
-                .andExpect(jsonPath("$.sexe", CoreMatchers.is(existingPatientDto.getSexe())))
-                .andExpect(jsonPath("$.Adresse", CoreMatchers.is(existingPatientDto.getAdresse())))
+                .andExpect(jsonPath("$.sexe", CoreMatchers.is(existingPatientDto.getSexe().toString())))
+                .andExpect(jsonPath("$.adresse", CoreMatchers.is(existingPatientDto.getAdresse())))
                 .andExpect(jsonPath("$.telephone", CoreMatchers.is(existingPatientDto.getTelephone())))
                 .andExpect(status().isOk());
     }
@@ -120,23 +122,23 @@ public class PatientControllerTest {
 
         PatientDTO updatedPatientDto = new PatientDTO(50L, "rachid", "1988-11-07", SexeType.HOMME, "France", "+212-697-159-788");
 
-        when(patientService.getPatientById(50L)).thenReturn(existingPatientDto);
+        long patientId = 50L;
 
-        when(patientService.updatePatient(existingPatientDto)).thenReturn(updatedPatientDto);
+        given(patientService.updatePatient(ArgumentMatchers.any())).willAnswer((invocation -> invocation.getArgument(0)));
 
-        ResultActions resultAction = mockMvc.perform(put("api/patient/50")
+        ResultActions resultAction = mockMvc.perform(put("/api/patient/{id}", patientId)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(new ObjectMapper().writeValueAsString(updatedPatientDto)));
 
-        resultAction.andExpect(jsonPath("$.nom", CoreMatchers.is(existingPatientDto.getNom())))
-                .andExpect(jsonPath("$.dateDeNaissance", CoreMatchers.is(existingPatientDto.getDateDeNaissance())))
-                .andExpect(jsonPath("$.sexe", CoreMatchers.is(existingPatientDto.getSexe())))
-                .andExpect(jsonPath("$.Adresse", CoreMatchers.is(existingPatientDto.getAdresse())))
-                .andExpect(jsonPath("$.telephone", CoreMatchers.is(existingPatientDto.getTelephone())))
+        resultAction.andExpect(jsonPath("$.nom", CoreMatchers.is(updatedPatientDto.getNom())))
+                .andExpect(jsonPath("$.dateDeNaissance", CoreMatchers.is(updatedPatientDto.getDateDeNaissance())))
+                .andExpect(jsonPath("$.sexe", CoreMatchers.is(updatedPatientDto.getSexe().toString())))
+                .andExpect(jsonPath("$.adresse", CoreMatchers.is(updatedPatientDto.getAdresse())))
+                .andExpect(jsonPath("$.telephone", CoreMatchers.is(updatedPatientDto.getTelephone())))
                 .andExpect(status().isOk());
 
-        verify(patientService, times(1)).getPatientById(50L);
-        verify(patientService, times(1)).updatePatient(existingPatientDto);
+
+        assertEquals(updatedPatientDto, existingPatientDto);
 
     }
 

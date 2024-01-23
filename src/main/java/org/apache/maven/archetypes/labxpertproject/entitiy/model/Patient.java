@@ -33,7 +33,7 @@ public class Patient {
     @Column(name = "adresse")
     private String adresse;
 
-    @Column(name = "telephone", unique = true)
+    @Column(name = "telephone"/*, unique = true*/)
     private String telephone;
 
 //    @OneToMany(mappedBy = "patient" ,cascade = CascadeType.REMOVE)

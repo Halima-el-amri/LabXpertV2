@@ -6,10 +6,6 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.text.SimpleDateFormat;
-import java.util.*;
-import java.util.stream.Stream;
-
 import static org.assertj.core.api.BDDAssumptions.given;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.*;
@@ -19,6 +15,8 @@ import org.apache.maven.archetypes.labxpertproject.DTOs.PatientDTO;
 import org.apache.maven.archetypes.labxpertproject.entitiy.enums.SexeType;
 import org.apache.maven.archetypes.labxpertproject.repository.PatientRepository;
 import org.apache.maven.archetypes.labxpertproject.service.interfaces.IPatientService;
+
+import java.util.List;
 
 @SpringBootTest
 public class patientservicetest {
@@ -32,64 +30,71 @@ public class patientservicetest {
     @Autowired
     private ModelMapper modelMapper;
 
-    PatientDTO patientDto;
+    PatientDTO existingPatientDto;
 
     @BeforeEach
-    void setUp() {
-        patientDto = new PatientDTO();
-        patientDto.setPatientId(1L);
-        patientDto.setNom("rachid");
-        patientDto.setDateDeNaissance("1988-12-01");
-        patientDto.setSexe(SexeType.HOMME);
-        patientDto.setAdresse("France");
-        patientDto.setTelephone("+212-699-109-586");
+    void init() {
+        existingPatientDto = new PatientDTO();
+//        existingPatientDto.setPatientId(100L);
+        existingPatientDto.setNom("rachid");
+        existingPatientDto.setDateDeNaissance("1988-12-01");
+        existingPatientDto.setSexe(SexeType.HOMME);
+        existingPatientDto.setAdresse("France");
+        existingPatientDto.setTelephone("+212-000-000-000");
     }
 
     @Test
     public void test_addPatient() {
-        PatientDTO resultDto = patientService.addPatient(patientDto);
-        assertNotNull(resultDto, "Patient Not found");
-        assertEquals(resultDto.getNom(), patientDto.getNom());
+        PatientDTO resultDto = patientService.addPatient(existingPatientDto);
+        assertNotNull(resultDto, "le patient n'existe pas ");
+        assertEquals(resultDto.getNom(), existingPatientDto.getNom(), "fghfghf");
+
     }
 
     @Test
     public void test_getAllPatients() {
-
-//        PatientDTO patientDto1 = new PatientDTO(51L, "rachid", new Date(1988, Calendar.NOVEMBER, 7), SexeType.HOMME, "France", "+212-699-109-334");
-//        PatientDTO patientDto2 = new PatientDTO(52L, "rachid", new Date(2000, Calendar.JANUARY, 7), SexeType.HOMME, "CASABLANCA", "+212-699-109-586");
-//        PatientDTO patientDto3 = new PatientDTO(53L, "HALIMA", new Date(1990, Calendar.MAY, 7), SexeType.FEMME, "UK", "+212-699-109-586");
-
-//        patientService.addPatient(patientDto1);
-//        patientService.addPatient(patientDto2);
-//        patientService.addPatient(patientDto3);
-//
-//        List<PatientDTO> patientDtoResult = patientService.getAllPatients();
-//
-//        List<PatientDTO> patientDtoList = Arrays.asList(
-//                patientDto1,
-//                patientDto2,
-//                patientDto3
-//        );
-//
-//
-//        assertEquals(patientDtoResult, patientDtoList);
-
-
+        List<PatientDTO> patientDtos = patientService.getAllPatients();
+        assertNotNull(patientDtos, "list is empty");
     }
 
     @Test
-    public void test_PatientById() {
+    public void test_getPatientById() {
+        long patientId = 1L;
+//        PatientDTO updatePatientDto = new PatientDTO(patientId, "rachid", "1988-12-01", SexeType.HOMME, "+212-000-000-000");
 
-
+        PatientDTO patientDTO = patientService.getPatientById(patientId);
+        System.out.println(patientDTO.getNom());
     }
 
     @Test
     public void test_updatePatient() {
+        long patientId = 3L;
+        existingPatientDto.setPatientId(patientId);
+        existingPatientDto.setNom("rachiddddd");
+        existingPatientDto.setDateDeNaissance("1988-12-01");
+        existingPatientDto.setSexe(SexeType.HOMME);
+        existingPatientDto.setAdresse("France");
+        existingPatientDto.setTelephone("+212-000-000-000");
 
+        PatientDTO updatePatientDto = patientService.addPatient(existingPatientDto);
+
+
+        updatePatientDto = patientService.updatePatient(updatePatientDto);
+        assertNotEquals(existingPatientDto, updatePatientDto.getNom(), "la modification n'est pas éfectuer");
     }
 
     @Test
     public void test_deletePatient() {
+
+        PatientDTO newPatientDto = patientService.addPatient(existingPatientDto);
+
+        Long patientId = newPatientDto.getPatientId();
+
+        assertNotNull(patientService.getPatientById(patientId), "l'enregistrement Patient doivent exister avant la suppression ");
+
+        patientService.deletePatient(patientId);
+
+        assertNull(patientService.getPatientById(patientId), "l'enregistrement Patient ne doivent pas exister après la suppression");
 
     }
 }

@@ -33,7 +33,7 @@ public class patientServiceTest {
     PatientDTO existingPatientDto;
 
     @BeforeEach
-    void init() {
+    private void init() {
         existingPatientDto = new PatientDTO();
 //        existingPatientDto.setPatientId(100L);
         existingPatientDto.setNom("rachid");

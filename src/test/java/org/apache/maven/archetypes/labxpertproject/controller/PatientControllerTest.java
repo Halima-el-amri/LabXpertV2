@@ -133,8 +133,6 @@ public class PatientControllerTest {
                 .andExpect(jsonPath("$.adresse", CoreMatchers.is(updatedPatientDto.getAdresse())))
                 .andExpect(jsonPath("$.telephone", CoreMatchers.is(updatedPatientDto.getTelephone())))
                 .andExpect(status().isOk());
-
-
         assertNotEquals(updatedPatientDto, existingPatientDto);
 
     }

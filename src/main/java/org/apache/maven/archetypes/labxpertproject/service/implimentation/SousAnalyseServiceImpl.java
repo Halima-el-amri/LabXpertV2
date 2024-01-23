@@ -60,32 +60,29 @@ public class SousAnalyseServiceImpl implements ISousAnalyseService {
         sousAnalyseRepository.deleteById(id);
     }
 
-    public CombinedSousAnalyseDTO getSousAnalyseMesures(Long souysAnalyseMesuresId, Long sousAnalyseId) {
-        SousAnalyse sousAnalyse = sousAnalyseRepository.findById(sousAnalyseId).orElse(null);
-        SousAnalyseMesures sousAnalyseMesures = sousAnalyseMesuresRepository.findById(souysAnalyseMesuresId).orElse(null);
-        CombinedSousAnalyseDTO combinedDTO = new CombinedSousAnalyseDTO();
-
-        if (sousAnalyseMesures != null) {
-            assert sousAnalyse != null;
-            StatutDeResultat statutDeResultat = compareValeurWithMinMax(sousAnalyse.getValeur(), sousAnalyseMesures.getMin(), sousAnalyseMesures.getMax());
-            sousAnalyse.setStatutDeResultat(statutDeResultat);
-            combinedDTO.setSousAnalyseDTO(modelMapper.map(sousAnalyse, SousAnalyseDTO.class));
-            combinedDTO.setSousAnalyseMesuresDTO(modelMapper.map(sousAnalyseMesures, SousAnalyseMesuresDTO.class));
-        }
-
-        return combinedDTO;
-    }
-
-//    public SousAnalyseMesuresDTO getSousAnalyseMesures(Long souysAnalyseMesuresId , Long sousAnalyseId) {
+//    public CombinedSousAnalyseDTO getSousAnalyseMesures(Long souysAnalyseMesuresId, Long sousAnalyseId) {
 //        SousAnalyse sousAnalyse = sousAnalyseRepository.findById(sousAnalyseId).orElse(null);
 //        SousAnalyseMesures sousAnalyseMesures = sousAnalyseMesuresRepository.findById(souysAnalyseMesuresId).orElse(null);
-//        if (sousAnalyseMesures != null) {
+//        CombinedSousAnalyseDTO combinedDTO = new CombinedSousAnalyseDTO();
 //
+//        if (sousAnalyseMesures != null) {
 //            assert sousAnalyse != null;
 //            StatutDeResultat statutDeResultat = compareValeurWithMinMax(sousAnalyse.getValeur(), sousAnalyseMesures.getMin(), sousAnalyseMesures.getMax());
 //            sousAnalyse.setStatutDeResultat(statutDeResultat);
+//            combinedDTO.setSousAnalyseDTO(modelMapper.map(sousAnalyse, SousAnalyseDTO.class));
+//            combinedDTO.setSousAnalyseMesuresDTO(modelMapper.map(sousAnalyseMesures, SousAnalyseMesuresDTO.class));
 //        }
-//        return modelMapper.map(sousAnalyseMesures, SousAnalyseMesuresDTO.class);
+//
+//        return combinedDTO;
+//    }
+
+    // Helper method to compare valeur with min and max and set StatutDeResultat
+//    private StatutDeResultat compareValeurWithMinMax(double valeur, double min, double max) {
+//        if (valeur >= min && valeur <= max) {
+//            return StatutDeResultat.NORMAL;
+//        } else {
+//            return StatutDeResultat.ANORMAL;
+//        }
 //    }
 
     public List<SousAnalyseMesuresDTO> getAllSousAnalyseMesures() {
@@ -95,13 +92,11 @@ public class SousAnalyseServiceImpl implements ISousAnalyseService {
                 .collect(Collectors.toList());
     }
 
-    // Helper method to compare valeur with min and max and set StatutDeResultat
-    private StatutDeResultat compareValeurWithMinMax(double valeur, double min, double max) {
-        if (valeur >= min && valeur <= max) {
-            return StatutDeResultat.NORMAL;
-        } else {
-            return StatutDeResultat.ANORMAL;
-        }
+    //todo: fix this
+
+    @Override
+    public CombinedSousAnalyseDTO getSousAnalyseMesures(Long souysAnalyseMesuresId, Long sousAnalyseId) {
+        return null;
     }
 
 

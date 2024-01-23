@@ -17,10 +17,14 @@ public class AnalyseController {
     @Autowired
     private IAnalyseService analyseService;
 
+
     @PostMapping
-    public ResponseEntity<AnalyseDTO> addAnalyse(@RequestBody @Valid AnalyseDTO analyseDTO) {
-        AnalyseDTO addedAnalyse = analyseService.addAnalyse(analyseDTO);
-        return new ResponseEntity<>(addedAnalyse, HttpStatus.CREATED);
+    public ResponseEntity<?> addAnalyse(@RequestBody @Valid AnalyseDTO analyseDTO) {
+        try{ AnalyseDTO addedAnalyse = analyseService.addAnalyse(analyseDTO);
+            return new ResponseEntity<>(addedAnalyse, HttpStatus.CREATED);
+        }catch (RuntimeException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
     }
 
     @GetMapping

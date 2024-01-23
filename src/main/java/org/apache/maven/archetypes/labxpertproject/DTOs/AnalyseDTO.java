@@ -16,6 +16,8 @@ public class AnalyseDTO {
 
     private Long utilisateurId;
 
+    private UtilisateurDTO utilisateur;
+
     private LocalDate dateDebutAnalyse;
 
     private LocalDate dateFinAnalyse;
@@ -31,6 +33,10 @@ public class AnalyseDTO {
     private Long planificationId;
 
     private Long echantillonId;
+
+    private EchantillonDTO echantillon;
+
+    private PlanificationDTO planification;
 
     private List<Long> reactifsIds;
 }

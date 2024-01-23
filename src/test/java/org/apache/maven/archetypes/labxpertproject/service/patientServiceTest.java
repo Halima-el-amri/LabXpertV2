@@ -72,7 +72,7 @@ public class patientServiceTest {
         long patientId = 3L;
         existingPatientDto.setPatientId(patientId);
         existingPatientDto.setNom("rachiddddd");
-        existingPatientDto.setDateDeNaissance(LocalDate.of(1999, 12, 1));
+        existingPatientDto.setDateDeNaissance(LocalDate.of(1996, 12, 1));
         existingPatientDto.setSexe(SexeType.HOMME);
         existingPatientDto.setAdresse("France");
         existingPatientDto.setTelephone("+212-000-000-000");

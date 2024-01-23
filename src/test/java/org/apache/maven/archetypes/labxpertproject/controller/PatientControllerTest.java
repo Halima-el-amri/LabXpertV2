@@ -15,11 +15,10 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
-
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Arrays;
-
 
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.mockito.BDDMockito.given;
@@ -29,11 +28,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-
 import org.apache.maven.archetypes.labxpertproject.DTOs.PatientDTO;
 import org.apache.maven.archetypes.labxpertproject.entitiy.enums.SexeType;
 import org.apache.maven.archetypes.labxpertproject.service.interfaces.IPatientService;
-
 
 @WebMvcTest(controllers = PatientController.class)
 @ExtendWith(MockitoExtension.class)
@@ -54,12 +51,11 @@ public class PatientControllerTest {
         existingPatientDto = new PatientDTO();
         existingPatientDto.setPatientId(1L);
         existingPatientDto.setNom("rachid");
-        existingPatientDto.setDateDeNaissance(LocalDate.of(1999, 12, 1));
+        existingPatientDto.setDateDeNaissance(LocalDate.parse("01-12-1999", DateTimeFormatter.ofPattern("dd-MM-yyyy")));
         existingPatientDto.setSexe(SexeType.HOMME);
         existingPatientDto.setAdresse("France");
         existingPatientDto.setTelephone("+212-699-109-586");
     }
-
 
     @Test
     public void test_addPatient() throws Exception {
@@ -71,7 +67,7 @@ public class PatientControllerTest {
                 .content(objectMapper.writeValueAsString(existingPatientDto)));
 
         resultAction.andExpect(jsonPath("$.nom", CoreMatchers.is(existingPatientDto.getNom())))
-                .andExpect(jsonPath("$.dateDeNaissance", CoreMatchers.is(existingPatientDto.getDateDeNaissance())))
+                .andExpect(jsonPath("$.dateDeNaissance", CoreMatchers.is(existingPatientDto.getDateDeNaissance().format(DateTimeFormatter.ofPattern("dd-MM-yyyy")))))
                 .andExpect(jsonPath("$.sexe", CoreMatchers.is(existingPatientDto.getSexe().toString())))
                 .andExpect(jsonPath("$.adresse", CoreMatchers.is(existingPatientDto.getAdresse())))
                 .andExpect(jsonPath("$.telephone", CoreMatchers.is(existingPatientDto.getTelephone())))
@@ -86,16 +82,16 @@ public class PatientControllerTest {
         when(patientService.getPatientById(patientId)).thenReturn(existingPatientDto);
 
         ResultActions resultAction = mockMvc.perform(get("/api/patient/{id}", patientId)
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(existingPatientDto)));
+                .contentType(MediaType.APPLICATION_JSON));
 
         resultAction.andExpect(jsonPath("$.nom", CoreMatchers.is(existingPatientDto.getNom())))
-                .andExpect(jsonPath("$.dateDeNaissance", CoreMatchers.is(existingPatientDto.getDateDeNaissance())))
+                .andExpect(jsonPath("$.dateDeNaissance", CoreMatchers.is(existingPatientDto.getDateDeNaissance().format(DateTimeFormatter.ofPattern("dd-MM-yyyy")))))
                 .andExpect(jsonPath("$.sexe", CoreMatchers.is(existingPatientDto.getSexe().toString())))
                 .andExpect(jsonPath("$.adresse", CoreMatchers.is(existingPatientDto.getAdresse())))
                 .andExpect(jsonPath("$.telephone", CoreMatchers.is(existingPatientDto.getTelephone())))
                 .andExpect(status().isOk());
     }
+
 
     @Test
     public void test_getAllPatients() throws Exception {
@@ -115,25 +111,29 @@ public class PatientControllerTest {
 
     @Test
     public void test_updatePatient() throws Exception {
+        Long patientId = 1L;
 
-        PatientDTO updatedPatientDto = new PatientDTO(50L, "rachid", LocalDate.of(1988, 11, 7), SexeType.HOMME, "France", "+212-697-159-788");
+        PatientDTO updatedPatientDto = new PatientDTO();
+        updatedPatientDto.setPatientId(patientId);
+        updatedPatientDto.setNom("UpdatedName");
+        updatedPatientDto.setDateDeNaissance(LocalDate.of(2000, 1, 1));
+        updatedPatientDto.setSexe(SexeType.FEMME);
+        updatedPatientDto.setAdresse("UpdatedAddress");
+        updatedPatientDto.setTelephone("+212-600-123-456");
 
-        long patientId = 50L;
-
-        given(patientService.updatePatient(ArgumentMatchers.any())).willAnswer((invocation -> invocation.getArgument(0)));
+        given(patientService.updatePatient(ArgumentMatchers.any(PatientDTO.class))).willReturn(updatedPatientDto);
 
         ResultActions resultAction = mockMvc.perform(put("/api/patient/{id}", patientId)
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(new ObjectMapper().writeValueAsString(updatedPatientDto)));
+                .content(objectMapper.writeValueAsString(updatedPatientDto)));
 
-        resultAction.andExpect(jsonPath("$.nom", CoreMatchers.is(updatedPatientDto.getNom())))
-                .andExpect(jsonPath("$.dateDeNaissance", CoreMatchers.is(updatedPatientDto.getDateDeNaissance())))
+        resultAction.andExpect(jsonPath("$.patientId", CoreMatchers.is(updatedPatientDto.getPatientId().intValue())))
+                .andExpect(jsonPath("$.nom", CoreMatchers.is(updatedPatientDto.getNom())))
+                .andExpect(jsonPath("$.dateDeNaissance", CoreMatchers.is(updatedPatientDto.getDateDeNaissance().format(DateTimeFormatter.ofPattern("dd-MM-yyyy")))))
                 .andExpect(jsonPath("$.sexe", CoreMatchers.is(updatedPatientDto.getSexe().toString())))
                 .andExpect(jsonPath("$.adresse", CoreMatchers.is(updatedPatientDto.getAdresse())))
                 .andExpect(jsonPath("$.telephone", CoreMatchers.is(updatedPatientDto.getTelephone())))
                 .andExpect(status().isOk());
-        assertNotEquals(updatedPatientDto, existingPatientDto);
-
     }
 
     @Test

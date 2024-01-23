@@ -57,7 +57,7 @@ public class SousAnalyseController {
 
     @GetMapping("/mesures/{sousAnalyseId}/{sousAnalyseMesuresId}")
     public ResponseEntity<CombinedSousAnalyseDTO> getSousAnalyseMesuresById(@PathVariable Long sousAnalyseId, @PathVariable Long sousAnalyseMesuresId) {
-        CombinedSousAnalyseDTO combinedDTO = sousAnalyseService.getSousAnalyseMesures(sousAnalyseMesuresId, sousAnalyseId);
+            CombinedSousAnalyseDTO combinedDTO = sousAnalyseService.getSousAnalyseMesures(sousAnalyseMesuresId, sousAnalyseId);
         return new ResponseEntity<>(combinedDTO, HttpStatus.OK);
     }
 }

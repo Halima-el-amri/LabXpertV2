@@ -51,9 +51,12 @@ public class AnalyseServiceImpl implements IAnalyseService {
 
     public AnalyseDTO addAnalyse(AnalyseDTO analyseDTO) {
         long count = analyseRepository.countByEtatAnalyse(StatutDanalyse.EN_COURS_DANALYSE);
-        if (count >= 5) {
+        if (count >=5) {
             analyseDTO.setEtatAnalyse(StatutDanalyse.EN_ATTENTE);
+        }else {
+            analyseDTO.setEtatAnalyse(StatutDanalyse.EN_COURS_DANALYSE);
         }
+
         for (Long reactifId : analyseDTO.getReactifsIds()) {
             Reactif reactif = reactifRepository.findById(reactifId)
                     .orElseThrow(() -> new EntityNotFoundException("Reactif not found with id: " + reactifId));

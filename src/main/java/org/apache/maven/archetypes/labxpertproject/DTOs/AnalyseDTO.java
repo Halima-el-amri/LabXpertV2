@@ -1,5 +1,6 @@
 package org.apache.maven.archetypes.labxpertproject.DTOs;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import org.apache.maven.archetypes.labxpertproject.entitiy.enums.AnalyseType;
 import org.apache.maven.archetypes.labxpertproject.entitiy.enums.StatutDanalyse;
@@ -25,6 +26,7 @@ public class AnalyseDTO {
 
     private AnalyseType analyseType;
 //    @NotNull(message = "EtatAnalyse must not be null")
+
 
     private StatutDanalyse etatAnalyse;
 

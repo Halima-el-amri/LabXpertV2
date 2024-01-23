@@ -67,11 +67,18 @@ public class AnalyseServiceImpl implements IAnalyseService {
     public AnalyseDTO addAnalyse(AnalyseDTO analyseDTO) {
         // Check lab capacity
         long count = analyseRepository.countByEtatAnalyse(StatutDanalyse.EN_COURS_DANALYSE);
-//        if (count >= 5) {
-//            throw new RuntimeException("The lab is full");
-//        } else {
+        if (count >= 5) {
+            throw new RuntimeException("The lab is full");
+        } else {
             analyseDTO.setEtatAnalyse(StatutDanalyse.EN_COURS_DANALYSE);
-
+            // Check reactif quantities
+            for (Long reactifId : analyseDTO.getReactifsIds()) {
+                Reactif reactif = reactifRepository.findById(reactifId)
+                        .orElseThrow(() -> new EntityNotFoundException("Reactif not found with id: " + reactifId));
+                if (reactif.getQuantite() <= 0) {
+                    throw new RuntimeException("Insufficient quantity for reactif with id: " + reactifId);
+                }
+            }
             // Fetch related entities
             Echantillon echantillon = echantillonRepository.findById(analyseDTO.getEchantillonId())
                     .orElseThrow(() -> new EntityNotFoundException("Echantillon not found with id: " + analyseDTO.getEchantillonId()));
@@ -109,21 +116,21 @@ public class AnalyseServiceImpl implements IAnalyseService {
             }
 
             analyse.setSousAnalyses(sousAnalyses);
+            analyse.setDateDebutAnalyse(LocalDate.now()); // Set your desired value
+            analyse.setAnalyseType(AnalyseType.CHIMIE); // Set your desired value
+            analyse.setCommentaire("Any comment you provided"); // Set your desired value
+
+            // Save the Analyse entity to the database
+            Analyse savedAnalyse = analyseRepository.save(analyse);
 
             // Map to AnalyseDTO with sousAnalyseMesures details
-            AnalyseDTO resultDTO = modelMapper.map(analyse, AnalyseDTO.class);
+            AnalyseDTO resultDTO = modelMapper.map(savedAnalyse, AnalyseDTO.class);
             resultDTO.getSousAnalyses().forEach(sousAnalyseDTO -> {
                 sousAnalyseDTO.setSousAnalyseMesures(modelMapper.map(sousAnalyseMesuresRepository.findById(sousAnalyseDTO.getSousAnalyseMesuresId()).get(), SousAnalyseMesuresDTO.class));
             });
 
-            // Set other properties in the resultDTO
-            resultDTO.setAnalyseId(1L); // Set your desired value
-            resultDTO.setDateDebutAnalyse(LocalDate.now()); // Set your desired value
-            resultDTO.setAnalyseType(AnalyseType.CHIMIE); // Set your desired value
-            resultDTO.setCommentaire("Any comment you provided"); // Set your desired value
-
             return resultDTO;
-
+        }
     }
 
 //

@@ -23,7 +23,6 @@ public class Echantillon {
     @OneToMany(mappedBy = "echantillon")
     private List<Analyse> analyses;
 
-
     @Column(name = "date_prelevement")
     private LocalDate datePrelevement;
 

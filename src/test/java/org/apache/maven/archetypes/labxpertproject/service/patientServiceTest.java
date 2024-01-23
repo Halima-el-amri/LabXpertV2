@@ -19,7 +19,7 @@ import org.apache.maven.archetypes.labxpertproject.service.interfaces.IPatientSe
 import java.util.List;
 
 @SpringBootTest
-public class patientservicetest {
+public class patientServiceTest {
 
     @Autowired
     private PatientRepository patientRepository;

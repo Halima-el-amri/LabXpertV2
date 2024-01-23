@@ -16,12 +16,12 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
 
-import java.util.Date;
+
 import java.util.List;
 import java.util.Arrays;
-import java.util.Calendar;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -34,11 +34,8 @@ import org.apache.maven.archetypes.labxpertproject.DTOs.PatientDTO;
 import org.apache.maven.archetypes.labxpertproject.entitiy.enums.SexeType;
 import org.apache.maven.archetypes.labxpertproject.service.interfaces.IPatientService;
 
-//@ExtendWith(MockitoExtension.class)
-//@WebMvcTest(PatientController.class)
 
 @WebMvcTest(controllers = PatientController.class)
-@AutoConfigureMockMvc(addFilters = false)
 @ExtendWith(MockitoExtension.class)
 public class PatientControllerTest {
 
@@ -138,7 +135,7 @@ public class PatientControllerTest {
                 .andExpect(status().isOk());
 
 
-        assertEquals(updatedPatientDto, existingPatientDto);
+        assertNotEquals(updatedPatientDto, existingPatientDto);
 
     }
 

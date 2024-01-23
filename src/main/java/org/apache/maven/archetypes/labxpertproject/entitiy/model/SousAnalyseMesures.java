@@ -15,7 +15,7 @@ public class SousAnalyseMesures {
     @Column(name = "sousAnalyseMesuresId")  // Match the column name
     private Long sousAnalyseMesuresId;
 
-    @Column(name = "nom")  // Match the column name
+    @Column(name = "analyse_name")  // Match the column name
     private String analyseName;
 
     @Column(name = "min")

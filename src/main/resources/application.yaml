@@ -1,4 +1,7 @@
 spring:
+  mvc:
+    pathmatch:
+      matching-strategy: ant-path-matcher
   datasource:
     url: jdbc:postgresql://localhost:5432/LabXpert
     username: postgres

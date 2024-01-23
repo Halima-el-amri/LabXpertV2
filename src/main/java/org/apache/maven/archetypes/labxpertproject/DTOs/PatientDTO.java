@@ -1,17 +1,13 @@
 package org.apache.maven.archetypes.labxpertproject.DTOs;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import java.time.LocalDate;
-import java.util.Date;
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.apache.maven.archetypes.labxpertproject.entitiy.enums.SexeType;
 
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.*;
 
 @Getter
@@ -27,12 +23,10 @@ public class PatientDTO {
     @Size(min = 5, max = 20, message = "Le nom d'patient doit comporter entre 5 et 50 caractères")
     private String nom;
 
-    @Pattern(regexp = "^\\d{4}-\\d{2}-\\d{2}$",
-            message = "Format de la date de naissance et invalide ,veuillez respecter le format suivant dd-mm-yyyy")
+    @JsonFormat(pattern = "dd-MM-yyyy")
     @NotNull(message = "La date de naissance ne peut pas être null")
     @PastOrPresent(message = "La date de naissance doit être dans le passé ou le présent")
     private LocalDate dateDeNaissance;
-
 
     @NotNull(message = "Le nom ne peut pas être null")
     private SexeType sexe;

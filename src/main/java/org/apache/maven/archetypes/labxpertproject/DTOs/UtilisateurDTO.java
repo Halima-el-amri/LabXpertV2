@@ -11,6 +11,8 @@ import org.apache.maven.archetypes.labxpertproject.entitiy.enums.RoleDutilisateu
 import javax.validation.constraints.*;
 
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class UtilisateurDTO {
 
     @Positive(message = "Utilisateur id must be positive")

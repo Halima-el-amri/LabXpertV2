@@ -40,7 +40,7 @@ class EchantillonRepositoryTest {
         // Create a Patient entity to test
         testPatient = new Patient();
         testPatient.setNom("Test Patient");
-        testPatient.setDateDeNaissance("1988-12-01");
+        testPatient.setDateDeNaissance(LocalDate.now());
         testPatient.setSexe(SexeType.HOMME);
         testPatient.setAdresse("Test Address");
         testPatient.setTelephone("1234567890");

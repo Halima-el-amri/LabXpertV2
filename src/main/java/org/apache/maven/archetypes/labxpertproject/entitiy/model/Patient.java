@@ -6,7 +6,6 @@ import org.apache.maven.archetypes.labxpertproject.entitiy.enums.SexeType;
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -18,6 +17,7 @@ public class Patient {
 
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "patient_sequence")
     @SequenceGenerator(name = "patient_sequence", sequenceName = "patient_sequence", allocationSize = 1)
+
     @Column(name = "patient_id")
     private Long patientId;
 
@@ -25,7 +25,7 @@ public class Patient {
     private String nom;
 
     @Column(name = "date_de_naissance")
-    private String dateDeNaissance;
+    private LocalDate dateDeNaissance;
 
     @Column(name = "sexe")
     @Enumerated(EnumType.STRING)
@@ -34,7 +34,7 @@ public class Patient {
     @Column(name = "adresse")
     private String adresse;
 
-    @Column(name = "telephone"/*, unique = true*/)
+    @Column(name = "telephone", unique = true)
     private String telephone;
 
 

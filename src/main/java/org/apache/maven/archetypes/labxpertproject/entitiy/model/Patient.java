@@ -34,7 +34,7 @@ public class Patient {
     @Column(name = "adresse")
     private String adresse;
 
-    @Column(name = "telephone", unique = true)
+    @Column(name = "telephone")
     private String telephone;
 
 

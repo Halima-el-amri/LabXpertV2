@@ -36,20 +36,18 @@ public class patientServiceTest {
     @BeforeEach
     public void init() {
         existingPatientDto = new PatientDTO();
-//        existingPatientDto.setPatientId(100L);
         existingPatientDto.setNom("rachid");
         existingPatientDto.setDateDeNaissance(LocalDate.of(1988, 12, 1));
         existingPatientDto.setSexe(SexeType.HOMME);
         existingPatientDto.setAdresse("France");
-        existingPatientDto.setTelephone("+212-000-000-000");
     }
 
     @Test
     public void test_addPatient() {
+        existingPatientDto.setTelephone("+212-000-000-001"); // unique telephone number
         PatientDTO resultDto = patientService.addPatient(existingPatientDto);
         assertNotNull(resultDto, "le patient n'existe pas ");
         assertEquals(resultDto.getNom(), existingPatientDto.getNom(), "fghfghf");
-
     }
 
     @Test
@@ -60,10 +58,20 @@ public class patientServiceTest {
 
     @Test
     public void test_getPatientById() {
-        long patientId = 1L;
-//        PatientDTO updatePatientDto = new PatientDTO(patientId, "rachid", "1988-12-01", SexeType.HOMME, "+212-000-000-000");
+        // Create and save a new PatientDTO
+        existingPatientDto.setTelephone("+212-000-000-004"); // unique telephone number
+        PatientDTO newPatientDto = patientService.addPatient(existingPatientDto);
 
+        // Get the patientId of the new PatientDTO
+        long patientId = newPatientDto.getPatientId();
+
+        // Now get the PatientDTO by id
         PatientDTO patientDTO = patientService.getPatientById(patientId);
+
+        // Now this should not be null
+        assertNotNull(patientDTO, "PatientDTO is null");
+
+        // Continue with your test
         System.out.println(patientDTO.getNom());
     }
 
@@ -75,7 +83,7 @@ public class patientServiceTest {
         existingPatientDto.setDateDeNaissance(LocalDate.of(1996, 12, 1));
         existingPatientDto.setSexe(SexeType.HOMME);
         existingPatientDto.setAdresse("France");
-        existingPatientDto.setTelephone("+212-000-000-000");
+        existingPatientDto.setTelephone("+212-000-000-042"); // unique telephone number
 
         PatientDTO updatePatientDto = patientService.addPatient(existingPatientDto);
 
@@ -86,6 +94,7 @@ public class patientServiceTest {
 
     @Test
     public void test_deletePatient() {
+        existingPatientDto.setTelephone("+212-000-000-003"); // unique telephone number
 
         PatientDTO newPatientDto = patientService.addPatient(existingPatientDto);
 

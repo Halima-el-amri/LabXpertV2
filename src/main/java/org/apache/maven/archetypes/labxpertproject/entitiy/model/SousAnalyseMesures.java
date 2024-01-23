@@ -12,7 +12,11 @@ public class SousAnalyseMesures {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SousAnalyseMesuresSequence")
     @SequenceGenerator(name = "SousAnalyseMesuresSequence", sequenceName = "SousAnalyseMesuresSequence", allocationSize = 1)
-    private Long id;
+    @Column(name = "sousAnalyseMesuresId")  // Match the column name
+    private Long sousAnalyseMesuresId;
+
+    @Column(name = "analyse_name")  // Match the column name
+    private String analyseName;
 
     @Column(name = "min")
     private double min;

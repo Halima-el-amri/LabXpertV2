@@ -34,4 +34,5 @@ public class Reactif {
     @JoinColumn(name = "analyse_id")
     private Analyse analyse;
 
+
 }

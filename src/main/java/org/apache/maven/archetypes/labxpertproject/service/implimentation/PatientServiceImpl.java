@@ -7,6 +7,7 @@ import org.apache.maven.archetypes.labxpertproject.repository.PatientRepository;
 import org.apache.maven.archetypes.labxpertproject.service.interfaces.IPatientService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,11 +24,15 @@ public class PatientServiceImpl implements IPatientService {
     private ModelMapper modelMapper;
 
     @Override
+    @Transactional
     public PatientDTO addPatient(PatientDTO patientDto) {
         try {
             Patient patient = convertToEntity(patientDto);
             patient = patientRepository.save(patient);
             return convertToDTO(patient);
+
+        } catch (DataIntegrityViolationException e) {
+            throw new RuntimeException("Ce numéro de téléphone est déjà utilisé", e);
 
         } catch (Exception e) {
             throw new RuntimeException("Error adding Patient", e);
@@ -59,6 +64,7 @@ public class PatientServiceImpl implements IPatientService {
     }
 
     @Override
+    @Transactional
     public PatientDTO updatePatient(PatientDTO patientDto) {
         try {
             Optional<Patient> patient = patientRepository.findById(patientDto.getPatientId());
@@ -71,10 +77,10 @@ public class PatientServiceImpl implements IPatientService {
         } catch (Exception e) {
             throw new RuntimeException("Error updating patient", e);
         }
-
     }
 
     @Override
+    @Transactional
     public void deletePatient(Long patientId) {
         try {
             patientRepository.deleteById(patientId);

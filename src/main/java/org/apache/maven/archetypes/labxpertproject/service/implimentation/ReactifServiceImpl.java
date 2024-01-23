@@ -32,30 +32,25 @@ public class ReactifServiceImpl implements IReactifService {
             Reactif existingReactif = reactifRepository.findByNomIgnoreCase(reactifDTO.getNom());
 
             if (existingReactif != null) {
-                // Update existing reactif quantity
+
                 existingReactif.setQuantite(existingReactif.getQuantite() + reactifDTO.getQuantite());
                 reactifRepository.save(existingReactif);
 
-                // Log the update and return an appropriate response
                 System.out.println("Reactif quantity updated successfully in the service");
                 return convertToDTO(existingReactif);
             } else {
-                // Create and save a new reactif
+
                 Reactif reactif = convertToEntity(reactifDTO);
                 reactif = reactifRepository.save(reactif);
                 System.out.println("Reactif added successfully in the service");
                 return convertToDTO(reactif);
             }
         } catch (IllegalArgumentException e) {
-            // Log the exception message
+
             System.out.println("IllegalArgumentException: " + e.getMessage());
-            throw e; // Rethrow the same exception for better visibility in logs or monitoring tools
+            throw e;
         }
     }
-
-
-
-
 
 
     @Override

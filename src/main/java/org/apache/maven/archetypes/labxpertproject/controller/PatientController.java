@@ -23,18 +23,17 @@ public class PatientController {
     @PostMapping
     public ResponseEntity<PatientDTO> addPatient(@RequestBody @Valid PatientDTO patientDto) {
         PatientDTO savedPatient = patientService.addPatient(patientDto);
-        return new ResponseEntity<>(savedPatient, HttpStatus.CREATED);
+        return new ResponseEntity<>(savedPatient, HttpStatus.OK);
     }
 
     @GetMapping
     public ResponseEntity<List<PatientDTO>> getAllPatients() {
-        // return ResponseEntity.ok(patientService.getAllPatients());
         List<PatientDTO> patients =patientService.getAllPatients();
         return new ResponseEntity<>(patients, HttpStatus.OK);
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<PatientDTO> getPatient(@PathVariable("id") Long patientId) {
+    public ResponseEntity<PatientDTO> getPatientById(@PathVariable("id") Long patientId) {
         PatientDTO savedPatient = patientService.getPatientById(patientId);
         return new ResponseEntity<>(savedPatient, HttpStatus.OK);
     }
@@ -43,7 +42,7 @@ public class PatientController {
     public ResponseEntity<PatientDTO> updatePatient(@PathVariable("id") Long patientId, @RequestBody PatientDTO patientDto) {
         patientDto.setPatientId(patientId);
         PatientDTO updatePatient = patientService.updatePatient(patientDto);
-         return new ResponseEntity<>( patientService.updatePatient(updatePatient), HttpStatus.OK );
+         return new ResponseEntity<>( updatePatient, HttpStatus.OK );
     }
 
     @DeleteMapping("/{id}")

@@ -1,5 +1,8 @@
 package org.apache.maven.archetypes.labxpertproject;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import liquibase.exception.LiquibaseException;
 import org.apache.maven.archetypes.labxpertproject.entitiy.enums.RoleDutilisateur;
 import org.apache.maven.archetypes.labxpertproject.entitiy.model.Analyse;
 import org.apache.maven.archetypes.labxpertproject.entitiy.model.Utilisateur;
@@ -12,8 +15,13 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 import javax.annotation.PostConstruct;
+
+@EnableSwagger2
+@EnableWebMvc
 
 @SpringBootApplication
 public class LabXpertProjectApplication {
@@ -21,43 +29,10 @@ public class LabXpertProjectApplication {
     public static void main(String[] args) {
         SpringApplication.run(LabXpertProjectApplication.class, args);
     }
+
     @Bean
     public ModelMapper modelMapper() {
         return new ModelMapper();
     }
-
-
-//     @Autowired
-//     private PatientRepository patientRepository;
-
-
-
-//     @Bean
-//     public ModelMapper modelMapper() {
-//         return new ModelMapper();
-//     }
-
-//
-//    @Autowired
-//    private AnalyseRepository analyseRepository;
-//    @Autowired
-//    private UtilisateurRepository u   tilisateurRepository;
-//
-//    @PostConstruct
-//    public void init() {
-//        Utilisateur user = new Utilisateur();
-//        user.setNomUtilisateur("admin");
-//        user.setEmail("hassanth@gmail.com");
-//        user.setPassword("admin");
-//        user.setRoleDutilisateur(RoleDutilisateur.ADMINISTRATEUR);
-//        user.setInformationsPersonalises("Test user for testing");
-//        utilisateurRepository.save(user);
-//
-//        Analyse analyse = new Analyse();
-//        analyse.setCommentaire("Test Comment");
-//        analyseRepository.save(analyse);
-//
-//
-//    }
 
 }

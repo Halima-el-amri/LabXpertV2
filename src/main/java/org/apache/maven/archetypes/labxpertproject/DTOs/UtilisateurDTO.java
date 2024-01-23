@@ -2,15 +2,19 @@ package org.apache.maven.archetypes.labxpertproject.DTOs;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
+import lombok.NoArgsConstructor;
 import org.apache.maven.archetypes.labxpertproject.entitiy.enums.RoleDutilisateur;
 
 import javax.validation.constraints.*;
 
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class UtilisateurDTO {
-    //TODO : RJ3 LHNA @ POSTIVE
+
     @Positive(message = "Utilisateur id must be positive")
     private Long utilisateurId;
 
@@ -36,5 +40,8 @@ public class UtilisateurDTO {
 
     @NotBlank(message = "Informations personalises is required")
     private String InformationsPersonalises;
+
+    public UtilisateurDTO(String johnDoe, String mail, String s, RoleDutilisateur roleDutilisateur, String someinformation) {
+    }
 }
 

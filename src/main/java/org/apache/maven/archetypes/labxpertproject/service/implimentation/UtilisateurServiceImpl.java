@@ -34,30 +34,13 @@ public class UtilisateurServiceImpl implements IUtilisateurSerivce {
     public UtilisateurDTO addUtilisateur(UtilisateurDTO userDTO) {
         try {
             Utilisateur utilisateur = convertToEntity(userDTO);
-            utilisateur = utilisateurRepository.save(utilisateur);  // Save and get the entity with generated ID
+            utilisateur = utilisateurRepository.save(utilisateur);
             System.out.println("Utilisateur added successfully service");
-            return convertToDTO(utilisateur);  // Return the DTO with the generated ID
+            return convertToDTO(utilisateur);
         } catch (Exception e) {
-            // Handle exception, log, or rethrow
             throw new RuntimeException("Error adding utilisateur", e);
         }
     }
-
-//    @Transactional(readOnly = true)
-//    public List<UtilisateurDTO> getAllUtilisateur() {
-//        try {
-//            List<Utilisateur> utilisateurs = utilisateurRepository.findAll();
-//            List<UtilisateurDTO> utilisateurDTOS = new ArrayList<>();
-//            for (Utilisateur utilisateur : utilisateurs) {
-//                utilisateurDTOS.add(convertToDTO(utilisateur));
-//            }
-//            return utilisateurDTOS;
-//        } catch (Exception e) {
-//            // Handle exception, log, or rethrow
-//            throw new RuntimeException("Error getting all utilisateurs", e);
-//        }
-//    }
-
 
     @Transactional(readOnly = true)
     public List<UtilisateurDTO> getAllUtilisateur() {
@@ -67,7 +50,6 @@ public class UtilisateurServiceImpl implements IUtilisateurSerivce {
                     .map(this::convertToDTO)
                     .collect(Collectors.toList());
         } catch (Exception e) {
-            // Handle exception, log, or rethrow
             throw new RuntimeException("Error getting all utilisateurs", e);
         }
     }
@@ -78,7 +60,6 @@ public class UtilisateurServiceImpl implements IUtilisateurSerivce {
             Optional<Utilisateur> utilisateur = utilisateurRepository.findById(userId);
             return utilisateur.map(this::convertToDTO).orElse(null);
         } catch (Exception e) {
-            // Handle exception, log, or rethrow
             throw new RuntimeException("Error getting utilisateur by ID", e);
         }
     }
@@ -94,7 +75,6 @@ public class UtilisateurServiceImpl implements IUtilisateurSerivce {
             }
             return null;
         } catch (Exception e) {
-            // Handle exception, log, or rethrow
             throw new RuntimeException("Error updating utilisateur", e);
         }
     }
@@ -104,7 +84,6 @@ public class UtilisateurServiceImpl implements IUtilisateurSerivce {
         try {
             utilisateurRepository.deleteById(userId);
         } catch (Exception e) {
-            // Handle exception, log, or rethrow
             throw new RuntimeException("Error deleting utilisateur", e);
         }
     }

@@ -1,6 +1,7 @@
 package org.apache.maven.archetypes.labxpertproject.entitiy.model;
 
 import lombok.Data;
+import org.apache.maven.archetypes.labxpertproject.entitiy.enums.AnalyseType;
 import org.apache.maven.archetypes.labxpertproject.entitiy.enums.StatutDanalyse;
 
 import javax.persistence.*;
@@ -18,7 +19,7 @@ public class Analyse {
     @SequenceGenerator(name = "your_sequence_name", sequenceName = "your_sequence_name", allocationSize = 1)
     private Long analyseId;
 
-    @ManyToOne (cascade = CascadeType.REMOVE)
+    @ManyToOne
     @JoinColumn(name = "utilisateur_id" )
     private Utilisateur utilisateur;
 
@@ -28,7 +29,7 @@ public class Analyse {
     @Column(name = "DateFinAnalyse")
     private LocalDate dateFinAnalyse;
 
-    @OneToMany(mappedBy = "analyse" ,cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "analyse" )
     private List<SousAnalyse> sousAnalyses = new ArrayList<>()   ;
 
     @Enumerated(EnumType.STRING)
@@ -38,18 +39,19 @@ public class Analyse {
     @Column(name = "Commentaire")
     private String commentaire;
 
-    @ManyToOne  (cascade = CascadeType.REMOVE)
+    @Enumerated(EnumType.STRING)
+    @Column(name = "AnalyseType")
+    private AnalyseType analyseType;
+
+    @ManyToOne
     @JoinColumn(name = "planification_id")
     private Planification planification;
 
-    @ManyToOne (cascade = CascadeType.REMOVE)
+    @ManyToOne
     @JoinColumn(name = "echantillon_id")
     private Echantillon echantillon;
-//
-//    @ManyToOne (cascade = CascadeType.REMOVE)
-//    @JoinColumn(name = "patient_id")
-//    private Patient patient;
 
-    @OneToMany(mappedBy = "analyse" ,cascade = CascadeType.REMOVE)
+
+    @OneToMany(mappedBy = "analyse")
     private List<Reactif> reactifs;
 }

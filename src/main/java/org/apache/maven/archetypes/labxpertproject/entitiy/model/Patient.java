@@ -37,9 +37,7 @@ public class Patient {
     @Column(name = "telephone", unique = true)
     private String telephone;
 
-//    @OneToMany(mappedBy = "patient" ,cascade = CascadeType.REMOVE)
-//    private List<Analyse> analyseHistory = new ArrayList<>();
 
-    @OneToMany(mappedBy = "patient" ,cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "patient" )
     private List<Echantillon> echantillons = new ArrayList<>();
 }

@@ -38,6 +38,6 @@ public class Patient {
     private String telephone;
 
 
-    @OneToMany(mappedBy = "patient" ,cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "patient" )
     private List<Echantillon> echantillons = new ArrayList<>();
 }

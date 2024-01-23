@@ -49,7 +49,6 @@ public class PlanificationServiceImpl implements IPlanificationService {
             System.out.println("Planification added successfully service");
             return convertToDTO(planification);
         } catch (Exception e) {
-            // Handle exception, log, or rethrow
             throw new RuntimeException("Error adding planification", e);
         }
     }
@@ -63,7 +62,6 @@ public class PlanificationServiceImpl implements IPlanificationService {
                     .map(this::convertToDTO)
                     .collect(Collectors.toList());
         } catch (Exception e) {
-            // Handle exception, log, or rethrow
             throw new RuntimeException("Error getting all planifications", e);
         }
     }
@@ -75,7 +73,6 @@ public class PlanificationServiceImpl implements IPlanificationService {
             Planification planification = planificationRepository.findById(id).orElse(null);
             return convertToDTO(planification);
         } catch (Exception e) {
-            // Handle exception, log, or rethrow
             throw new RuntimeException("Error getting planification by id", e);
         }
     }
@@ -92,7 +89,6 @@ public class PlanificationServiceImpl implements IPlanificationService {
             }
             return null;
         } catch (Exception e) {
-            // Handle exception, log, or rethrow
             throw new RuntimeException("Error updating planification", e);
         }
     }
@@ -103,18 +99,16 @@ public class PlanificationServiceImpl implements IPlanificationService {
         try {
             Optional<Planification> planificationOptional = planificationRepository.findById(id);
             planificationOptional.ifPresent(planification -> {
-                // Clear the association to utilisateur in each planification
+
                 planification.setUtilisateur(null);
                 planificationRepository.save(planification);
 
-                // Delete associated analyses
                 planification.getAnalyses().forEach(analyse -> analyseRepository.deleteById(analyse.getAnalyseId()));
 
-                // Delete the planification
                 planificationRepository.deleteById(id);
             });
         } catch (Exception e) {
-            // Handle exception, log, or rethrow
+
             throw new RuntimeException("Error deleting planification", e);
         }
     }

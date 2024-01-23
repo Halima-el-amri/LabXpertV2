@@ -15,7 +15,6 @@ public class SousAnalyseDTO {
     @NotNull(message = "Valeur must not be null")
     private double valeur;
 
-    // New field for SousAnalyseMesures ID
     @NotNull(message = "SousAnalyseMesures ID must not be null")
 
     private Long sousAnalyseMesuresId;

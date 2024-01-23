@@ -62,23 +62,18 @@ public class EchantillonServiceImpl implements IEchantillonService {
         Echantillon existingEchantillon = echantillonRepository.findById(echantillonId)
                 .orElseThrow(() -> new EntityNotFoundException("Echantillon not found with id: " + echantillonId));
 
-        // Configure ModelMapper for handling null values during mapping
         modelMapper.getConfiguration().setPropertyCondition(Conditions.isNotNull());
 
-        // Ensure consistent use of ModelMapper
         modelMapper.map(updatedEchantillonDTO, existingEchantillon);
 
-        // Explicitly set the patient of the updated Echantillon
         Patient updatedPatient = patientRepository.findById(updatedEchantillonDTO.getPatientId())
                 .orElseThrow(() -> new EntityNotFoundException("Patient not found with id: " + updatedEchantillonDTO.getPatientId()));
         existingEchantillon.setPatient(updatedPatient);
 
         Echantillon savedEchantillon = echantillonRepository.save(existingEchantillon);
 
-        // Map the saved Echantillon to EchantillonDTO
         EchantillonDTO responseDTO = modelMapper.map(savedEchantillon, EchantillonDTO.class);
 
-        // Map the associated Patient to PatientDTO
         responseDTO.setPatient(modelMapper.map(updatedPatient, PatientDTO.class));
 
         return responseDTO;
@@ -92,7 +87,6 @@ public class EchantillonServiceImpl implements IEchantillonService {
         echantillonRepository.delete(existingEchantillon);
     }
 
-    // Helper method to map Echantillon to EchantillonDTO with Patient details
     private EchantillonDTO mapToDTOWithPatient(Echantillon echantillon) {
         EchantillonDTO echantillonDTO = modelMapper.map(echantillon, EchantillonDTO.class);
         echantillonDTO.setPatient(modelMapper.map(echantillon.getPatient(), PatientDTO.class));

@@ -10,7 +10,7 @@ import javax.validation.constraints.*;
 
 @Data
 public class UtilisateurDTO {
-    //TODO : RJ3 LHNA @ POSTIVE
+
     @Positive(message = "Utilisateur id must be positive")
     private Long utilisateurId;
 

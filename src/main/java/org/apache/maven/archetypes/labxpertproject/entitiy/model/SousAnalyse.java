@@ -26,7 +26,6 @@ public class SousAnalyse {
     @JoinColumn(name = "analyse_id")
     private Analyse analyse;
 
-    // Establishing OneToOne relationship with SousAnalyseMesures
     @OneToOne
     @JoinColumn(name = "sousAnalyseMesures_id")
     private SousAnalyseMesures sousAnalyseMesures;

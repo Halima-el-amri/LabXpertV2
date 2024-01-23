@@ -20,8 +20,6 @@ public class    EchantillonController {
     @Autowired
     private IEchantillonService echantillonService;
 
-
-//http://localhost:8080/api/echantillons/21
 @GetMapping("{id}")
 public ResponseEntity<EchantillonDTO> getEchantillonById(@PathVariable("id") Long echantillonId) {
     try {

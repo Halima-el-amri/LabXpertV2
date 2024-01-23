@@ -16,7 +16,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
 
-
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Arrays;
 
@@ -54,7 +54,7 @@ public class PatientControllerTest {
         existingPatientDto = new PatientDTO();
         existingPatientDto.setPatientId(1L);
         existingPatientDto.setNom("rachid");
-        existingPatientDto.setDateDeNaissance("1988-12-01");
+        existingPatientDto.setDateDeNaissance(LocalDate.of(1999, 12, 1));
         existingPatientDto.setSexe(SexeType.HOMME);
         existingPatientDto.setAdresse("France");
         existingPatientDto.setTelephone("+212-699-109-586");
@@ -101,10 +101,9 @@ public class PatientControllerTest {
     public void test_getAllPatients() throws Exception {
 
         List<PatientDTO> patientDTOList = Arrays.asList(
-                new PatientDTO(50L, "rachid", "1988-11-07", SexeType.HOMME, "France", "+212-697-159-788"),
-                new PatientDTO(51L, "hassan", "2000-08-01", SexeType.HOMME, "espagne", "+212-698-106-454"),
-                new PatientDTO(52L, "Halima", "1996-05-03", SexeType.FEMME, "maroc", "+212-689-105-732")
-        );
+                new PatientDTO(50L, "rachid", LocalDate.of(1988, 11, 7), SexeType.HOMME, "France", "+212-697-159-788"),
+                new PatientDTO(51L, "hassan", LocalDate.of(2000, 8, 1), SexeType.HOMME, "espagne", "+212-698-106-454"),
+                new PatientDTO(52L, "Halima", LocalDate.of(1996, 5, 3), SexeType.FEMME, "maroc", "+212-689-105-732"));
 
         when(patientService.getAllPatients()).thenReturn(patientDTOList);
 
@@ -117,7 +116,7 @@ public class PatientControllerTest {
     @Test
     public void test_updatePatient() throws Exception {
 
-        PatientDTO updatedPatientDto = new PatientDTO(50L, "rachid", "1988-11-07", SexeType.HOMME, "France", "+212-697-159-788");
+        PatientDTO updatedPatientDto = new PatientDTO(50L, "rachid", LocalDate.of(1988, 11, 7), SexeType.HOMME, "France", "+212-697-159-788");
 
         long patientId = 50L;
 
@@ -140,9 +139,9 @@ public class PatientControllerTest {
     @Test
     public void test_deletePatient() throws Exception {
 
-        new PatientDTO(50L, "rachid", "1988-11-07", SexeType.HOMME, "France", "+212-697-159-788");
-        new PatientDTO(51L, "hassan", "2000-08-01", SexeType.HOMME, "espagne", "+212-698-106-454");
-        new PatientDTO(52L, "Halima", "1996-05-03", SexeType.FEMME, "maroc", "+212-689-105-732");
+        new PatientDTO(50L, "rachid", LocalDate.of(1988, 11, 7), SexeType.HOMME, "France", "+212-697-159-788");
+        new PatientDTO(51L, "hassan", LocalDate.of(1988, 11, 7), SexeType.HOMME, "espagne", "+212-698-106-454");
+        new PatientDTO(52L, "Halima", LocalDate.of(1988, 11, 7), SexeType.FEMME, "maroc", "+212-689-105-732");
 
         long patientId = 50L;
 

@@ -38,17 +38,6 @@ pipeline {
             }
         }
 
-        stage('Report') {
-            steps {
-                script {
-                    if (isUnix()) {
-                        sh 'mvn clean site'
-                    } else {
-                        bat 'mvn clean site'
-                    }
-                }
-            }
-        }
     }
 
     post {

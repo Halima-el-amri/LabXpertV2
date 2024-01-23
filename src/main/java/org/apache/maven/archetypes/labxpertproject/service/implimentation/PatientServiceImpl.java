@@ -33,6 +33,7 @@ public class PatientServiceImpl implements IPatientService {
 
         } catch (DataIntegrityViolationException e) {
             throw new RuntimeException("Ce numéro de téléphone est déjà utilisé", e);
+
         } catch (Exception e) {
             throw new RuntimeException("Error adding Patient", e);
         }
@@ -76,7 +77,6 @@ public class PatientServiceImpl implements IPatientService {
         } catch (Exception e) {
             throw new RuntimeException("Error updating patient", e);
         }
-
     }
 
     @Override

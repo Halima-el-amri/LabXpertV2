@@ -17,14 +17,17 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 import javax.annotation.PostConstruct;
+
 @EnableSwagger2
 @EnableWebMvc
+
 @SpringBootApplication
 public class LabXpertProjectApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(LabXpertProjectApplication.class, args);
     }
+
     @Bean
     public ModelMapper modelMapper() {
         return new ModelMapper();

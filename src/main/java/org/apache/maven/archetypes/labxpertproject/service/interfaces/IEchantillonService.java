@@ -6,12 +6,13 @@ import java.util.List;
 
 public interface IEchantillonService {
 
-
     EchantillonDTO getEchantillonById(Long id);
 
     List<EchantillonDTO> getAllEchantillons();
 
     EchantillonDTO createEchantillon(EchantillonDTO echantillonDTO);
+
     public EchantillonDTO updateEchantillon(Long echantillonId, EchantillonDTO updatedEchantillonDTO);
+
     void deleteEchantillon(Long id);
 }
